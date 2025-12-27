@@ -3,47 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>McD Injector - fncreative</title>
+    <title>McD Injector PRO</title>
     <style>
-        body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #FFBC0D; }
-        .card { background: white; padding: 40px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 320px; }
-        .btn-mcd { display: block; padding: 20px; background: #DB3434; color: white; text-decoration: none; border-radius: 15px; font-weight: bold; font-size: 18px; margin-top: 25px; box-shadow: 0 5px 15px rgba(219,52,52,0.4); }
-        .btn-mcd:active { transform: scale(0.95); background: #b52a2a; }
-        .info { font-size: 11px; color: #aaa; margin-top: 20px; line-height: 1.4; }
+        body { font-family: -apple-system, sans-serif; background: #FFBC0D; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 25px; text-align: center; width: 85%; max-width: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn { display: block; padding: 15px; margin: 10px 0; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; }
+        .btn-1 { background: #DB3434; } /* Metode Utama */
+        .btn-2 { background: #27ae60; } /* Metode Alternatif 1 */
+        .btn-3 { background: #2980b9; } /* Metode Alternatif 2 */
+        .info { font-size: 12px; color: #666; margin-bottom: 15px; }
     </style>
 </head>
 <body>
-
-<div class="card">
-    <img src="https://www.mcdonalds.co.id/assets/img/mcdonalds_logo_gold.png" width="80" alt="McD">
-    <h2 style="margin: 15px 0 5px; color: #333;">Klaim Promo</h2>
-    <p id="promo-id" style="color: #666; font-size: 14px; margin: 0;">Menyiapkan suntikan promo...</p>
-    
-    <a href="#" id="claim-link" class="btn-mcd">INJECT KE APLIKASI</a>
-    
-    <p class="info">Pastikan aplikasi McDonald's sudah terinstall.<br>Klik tombol di atas untuk membuka.</p>
-</div>
-
-<script>
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    
-    if (id) {
-        document.getElementById('promo-id').innerText = "Target Offer ID: " + id;
+    <div class="card">
+        <img src="https://www.mcdonalds.co.id/assets/img/mcdonalds_logo_gold.png" width="60">
+        <h3>Pilih Metode Inject</h3>
+        <p class="info" id="target">Offer ID: Loading...</p>
         
-        // MENGGUNAKAN SMART LINK RESMI (UNIVERSAL LINK)
-        // Ini adalah kunci agar Safari tidak protes 'Alamat Tidak Sah'
-        const finalUrl = `https://scans.mcd.com/app/offer-details?offerId=${id}&loyaltyId=5271`;
+        <a href="#" id="link1" class="btn btn-1">METODE 1 (GMA)</a>
+        <a href="#" id="link2" class="btn btn-2">METODE 2 (LITE)</a>
+        <a href="#" id="link3" class="btn btn-3">METODE 3 (UNIVERSAL)</a>
         
-        const btn = document.getElementById('claim-link');
-        btn.href = finalUrl;
-        
-        // JANGAN GUNAKAN REDIRECT OTOMATIS
-        // Biarkan user klik sendiri agar sistem iOS memberikan izin buka aplikasi
-    } else {
-        document.getElementById('promo-id').innerText = "ID Promo tidak terdeteksi";
-    }
-</script>
+        <p style="font-size: 10px; color: #aaa; margin-top: 15px;">Coba satu-satu sampai aplikasi terbuka</p>
+    </div>
 
+    <script>
+        const p = new URLSearchParams(window.location.search);
+        const id = p.get('id') || '272489';
+        document.getElementById('target').innerText = "Offer ID: " + id;
+
+        // Metode 1: Global Scheme
+        document.getElementById('link1').href = `mcdonalds://GMA/OfferDetails?offerId=${id}&loyaltyId=5271`;
+        
+        // Metode 2: GMA Lite Scheme (Web Mukidi pakai ini)
+        const smart = "https://smart.link/2e5d9984m04hg";
+        document.getElementById('link2').href = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(smart + '?offerId=' + id)}`;
+        
+        // Metode 3: Universal Link (Paling Aman dari Error 'Tidak Sah')
+        document.getElementById('link3').href = `https://scans.mcd.com/app/offer-details?offerId=${id}&loyaltyId=5271`;
+    </script>
 </body>
 </html>
