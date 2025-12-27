@@ -1,29 +1,64 @@
-function injek(offId, loyId) {
-    // Kita hilangkan mCode karena kita akan menembak langsung ke modul Reward
-    var slug = "2le1hb5pjyoo9";
-    var partner = encodeURIComponent("Tiktok Live 109.5");
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>McD Promo Injector</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #f4f4f4; padding: 20px; text-align: center; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn { background: #da291c; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
+        h3 { font-size: 13px; height: 35px; overflow: hidden; margin: 0 0 10px 0; }
+        .logo { width: 50px; }
+    </style>
+</head>
+<body>
 
-    // TEKNIK MUKIDI: Gunakan path 'rewards' bukan 'offers'
-    // Seringkali modul reward lebih longgar validasinya dibanding modul promo
-    var targetUrl = "https://www.mcdonalds.co.id/rewards/details?offer_id=" + offId + 
-                    "&loyalty_id=" + loyId + 
-                    "&partner=" + partner + 
-                    "&view=active"; // Memaksa status menjadi aktif
+    <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" class="logo">
+    <h2>Pilih Menu</h2>
 
-    // Gunakan skema gmalite-smartweb
-    var finalLink = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(targetUrl);
+    <div class="grid">
+        <div class="card">
+            <h3>4 Pcs McNugget</h3>
+            <button class="btn" onclick="inject('272469', '5271')">INJECT</button>
+        </div>
+        <div class="card">
+            <h3>Ayam + Nasi</h3>
+            <button class="btn" onclick="inject('272484', '5271')">INJECT</button>
+        </div>
+        <div class="card">
+            <h3>Cheeseburger</h3>
+            <button class="btn" onclick="inject('272395', '5271')">INJECT</button>
+        </div>
+        <div class="card">
+            <h3>Panas 1</h3>
+            <button class="btn" onclick="inject('267611', '5272')">INJECT</button>
+        </div>
+    </div>
 
-    // EKSEKUSI UTAMA
-    window.location.href = finalLink;
+    <script>
+        function inject(offId, loyId) {
+            // Jalur Direct Reward (Tanpa Kode)
+            // Mukidi menggunakan path ini agar tidak perlu input kode promo
+            var targetUrl = "https://www.mcdonalds.co.id/rewards/details?offer_id=" + offId + 
+                            "&loyalty_id=" + loyId + 
+                            "&view=claim&action=redeem";
 
-    // JALUR NATIVE BACKUP (Pemicu Tombol Inject)
-    setTimeout(function() {
-        if (!document.hidden) {
-            // Kita coba skema 'loyalty' jika 'offers' tetap 500
-            var nativeReward = "gmalite://loyalty/details?offer_id=" + offId + 
-                               "&loyalty_id=" + loyId + 
-                               "&force_inject=true";
-            window.location.href = nativeReward;
+            // Bungkus ke Protokol Deep Link
+            var finalLink = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(targetUrl);
+
+            // Eksekusi Utama
+            window.location.href = finalLink;
+
+            // Jika aplikasi tidak merespon, gunakan jalur Native Loyalty
+            setTimeout(function() {
+                if (!document.hidden) {
+                    var nativePath = "gmalite://loyalty/details?offer_id=" + offId + "&loyalty_id=" + loyId;
+                    window.location.href = nativePath;
+                }
+            }, 1200);
         }
-    }, 1500);
-}
+    </script>
+</body>
+</html>
