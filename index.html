@@ -4,67 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer">
-    <title>McD Promo Injector</title>
+    <title>Injeksi Promo Aktif</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f4f4f4; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        body { font-family: sans-serif; background: #f0f0f0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 400px; }
-        .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
-        .btn { background: #da291c; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        h3 { font-size: 14px; margin: 0; height: 35px; overflow: hidden; }
+        .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; }
+        .btn { background: #da291c; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" width="50" style="margin-bottom: 20px;">
-    <div class="grid" id="menu"></div>
+    <h2 style="color: #da291c;">Pilih Voucher</h2>
+    <div class="grid" id="container"></div>
 
 <script>
-    const promos = [
+    const listPromo = [
         { name: "Panas 1", off: "267611", loy: "5272" },
-        { name: "Cheeseburger + FF", off: "272395", loy: "5271" },
-        { name: "Ayam + McFloat + FF", off: "272400", loy: "5271" },
-        { name: "McFlurry + FF", off: "272404", loy: "5271" },
-        { name: "4 Pcs McNugget + Cola", off: "272469", loy: "5271" },
-        { name: "Ayam + Nasi + Tea", off: "272484", loy: "5271" }
+        { name: "4 Pcs McNugget", off: "272469", loy: "5271" },
+        { name: "Ayam + Nasi", off: "272484", loy: "5271" }
     ];
 
-    const container = document.getElementById('menu');
-    promos.forEach(p => {
-        container.innerHTML += `
+    const box = document.getElementById('container');
+    listPromo.forEach(p => {
+        box.innerHTML += `
             <div class="card">
                 <h3>${p.name}</h3>
-                <button class="btn" onclick="injectVoucher('${p.off}', '${p.loy}')">INJECT</button>
+                <button class="btn" onclick="forceInject('${p.off}', '${p.loy}')">INJEK VOUCHER</button>
             </div>
         `;
     });
 
-    function injectVoucher(offId, loyId) {
+    function forceInject(offId, loyId) {
         const slug = "2le1hb5pjyoo9"; 
-        const mCode = "PaketNgemil12"; // Pastikan ini kode terbaru
-        const partner = "Tiktok Live 109.5";
+        const mCode = "PaketNgemil12"; 
+        
+        // PARAMETER RAHASIA: 
+        // Mukidi menambahkan 'source', 'site_id', dan 'creative_id' agar aplikasi 
+        // mengaktifkan fungsi klaim secara otomatis.
+        const trackingParams = new URLSearchParams({
+            offer_id: offId,
+            loyalty_id: loyId,
+            code: mCode,
+            is_mass_code: "1",
+            partner: "Tiktok Live 109.5",
+            source: "direct",
+            site_id: "facebook_ads",
+            creative_id: "promo_400",
+            ad_id: Math.floor(Math.random() * 1000000)
+        }).toString();
 
-        // TEKNIK FORCED VIEW: 
-        // Kita tambahkan parameter 'view=claim' dan 'action=redeem' 
-        // agar aplikasi tidak hanya menampilkan info, tapi langsung memicu fungsi klaim.
-        const targetUrl = `https://www.mcdonalds.co.id/offers/details?offer_id=${offId}&loyalty_id=${loyId}&code=${mCode}&is_mass_code=1&partner=${encodeURIComponent(partner)}&view=claim&action=redeem&force_open=1`;
+        // JALUR TERKUAT: Gunakan Smartlink di dalam Smartweb
+        const finalTarget = `https://smart.link/${slug}?${trackingParams}`;
+        
+        // Untuk iOS, kita gunakan skema 'gmalite-smartweb' yang lebih dalam
+        const injectionLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(finalTarget)}`;
 
-        // Susun Deep Link dengan Full Parameter
-        const deepLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(targetUrl)}`;
+        // Eksekusi
+        window.location.href = injectionLink;
 
-        // Eksekusi (Untuk iOS)
-        const a = document.createElement('a');
-        a.href = deepLink;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        // Backup: Jika banner muncul tapi tombol 'Tukar' tidak ada, gunakan skema REDEEM NATIVE
+        // EMERGENCY FALLBACK: Jika tombol klaim tetap tidak muncul, 
+        // kita paksa aplikasi masuk ke mode 'Redeem Now'
         setTimeout(() => {
             if (!document.hidden) {
-                const nativeRedeem = `gmalite://offers/redeem?offer_id=${offId}&loyalty_id=${loyId}&code=${mCode}`;
-                window.location.href = nativeRedeem;
+                const forceRedeem = `gmalite://offers/redeem?offer_id=${offId}&loyalty_id=${loyId}&code=${mCode}&is_mass_code=1`;
+                window.location.href = forceRedeem;
             }
-        }, 1200);
+        }, 1500);
     }
 </script>
 </body>
