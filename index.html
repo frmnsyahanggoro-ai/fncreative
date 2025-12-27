@@ -1,40 +1,48 @@
-function forceInject(offId, loyId) {
-        const slug = "2le1hb5pjyoo9"; 
-        const mCode = "PaketNgemil12"; 
-        const partner = "Tiktok Live 109.5";
-        
-        // 1. PROTOKOL NATIVE (Pemicu Menu Klaim)
-        // Kita langsung tembak ke modul 'redeem' agar aplikasi memunculkan jendela klaim
-        const forceRedeem = `gmalite://offers/redeem?offer_id=${offId}&loyalty_id=${loyId}&code=${mCode}&is_mass_code=1&partner=${encodeURIComponent(partner)}`;
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>Promo McDonald's Indonesia</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #f4f4f4; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 400px; }
+        .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; border: 1px solid #ddd; }
+        .btn { background: #da291c; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 14px; }
+        h3 { font-size: 13px; margin: 0; height: 35px; color: #333; }
+    </style>
+</head>
+<body>
 
-        // 2. PROTOKOL TRACKING (Pemicu Aktivasi Smartlink)
-        const trackingParams = new URLSearchParams({
-            offer_id: offId,
-            loyalty_id: loyId,
-            code: mCode,
-            is_mass_code: "1",
-            partner: partner,
-            source: "direct",
-            site_id: "facebook_ads"
-        }).toString();
+    <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" width="50" style="margin-bottom: 20px;">
+    <div class="grid" id="menu-container"></div>
 
-        const finalTarget = `https://smart.link/${slug}?${trackingParams}`;
-        const injectionLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(finalTarget)}`;
+    <script>
+        // Data Promo yang Anda Berikan
+        const promos = [
+            { name: "Panas 1", off: "267611", loy: "5272" },
+            { name: "Cheeseburger + FF", off: "272395", loy: "5271" },
+            { name: "Ayam + McFloat + FF", off: "272400", loy: "5271" },
+            { name: "McFlurry + FF", off: "272404", loy: "5271" },
+            { name: "4 Pcs McNugget + Cola", off: "272469", loy: "5271" },
+            { name: "Ayam + Nasi + Tea", off: "272484", loy: "5271" }
+        ];
 
-        // --- EKSEKUSI STRATEGI BARU ---
-        
-        // Pertama: Tembak Native Redeem untuk memicu Menu Klaim muncul di depan
-        window.location.href = forceRedeem;
+        const container = document.getElementById('menu-container');
+        promos.forEach(p => {
+            container.innerHTML += `
+                <div class="card">
+                    <h3>${p.name}</h3>
+                    <button class="btn" onclick="executeInject('${p.off}', '${p.loy}')">KLAIM VOUCHER</button>
+                </div>
+            `;
+        });
 
-        // Kedua: Berikan jeda 800ms, lalu suntikkan Tracking-nya di latar belakang
-        // Ini agar aplikasi memvalidasi sesi tepat setelah menu klaim terbuka
-        setTimeout(() => {
-            // Gunakan iframe tersembunyi agar tidak terjadi refresh halaman yang merusak menu klaim
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = injectionLink;
-            document.body.appendChild(iframe);
-            
-            setTimeout(() => document.body.removeChild(iframe), 2000);
-        }, 800);
-    }
+        function executeInject(offId, loyId) {
+            const mCode = "PaketNgemil12"; 
+            const partner = "Tiktok Live 109.5";
+            const slug = "2le1hb5pjyoo9";
+
+            // 1. TAHAP NATIVE (Untuk memunculkan MENU INJECT/TUKAR)
+            // Kita gunakan skema 'offers/redeem' agar aplikasi langsung memicu tombol konfirmasi
