@@ -1,59 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting... | Security Check</title>
+    <title>Verifikasi Keamanan | McDonald's</title>
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --accent: #ffbc0d; } /* Warna kuning khas MCD */
-        body { background: var(--bg); color: #f8fafc; font-family: 'Segoe UI', Tahoma, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .container { background: var(--card); padding: 2.5rem; border-radius: 16px; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); }
-        .logo { width: 60px; height: 60px; background: rgba(255, 188, 13, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; }
-        h1 { font-size: 1.4rem; margin-bottom: 0.5rem; }
-        p { color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.5rem; }
-        .h-captcha { display: flex; justify-content: center; margin-bottom: 1rem; }
-        #loader { display: none; margin-top: 1rem; color: var(--accent); }
-        .spin { border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid var(--accent); border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        body { background-color: #111; color: white; font-family: 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .card { background: #222; padding: 30px; border-radius: 15px; text-align: center; border: 1px solid #ffbc0d; box-shadow: 0 0 20px rgba(255, 188, 13, 0.2); }
+        h2 { color: #ffbc0d; margin-top: 0; }
+        .h-captcha { margin: 20px 0; }
+        #redirect-msg { display: none; color: #ffbc0d; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="logo">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffbc0d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-    </div>
-    <h1>Verifikasi Keamanan</h1>
-    <p>Selesaikan captcha untuk melanjutkan ke halaman Voucher McDonald's.</p>
-
-    <div class="h-captcha" data-sitekey="10000000-ffff-ffff-ffff-000000000001" data-callback="onSuccess"></div>
-
-    <div id="loader">
-        <div class="spin"></div>
-        <span>Mengalihkan dalam <b id="seconds">3</b> detik...</span>
-    </div>
-</div>
-
-<script>
-    function onSuccess(token) {
-        document.querySelector('.h-captcha').style.display = 'none';
-        document.getElementById('loader').style.display = 'block';
+    <div class="card">
+        <h2>Keamanan McDonald's</h2>
+        <p>Selesaikan verifikasi untuk melihat voucher Anda.</p>
         
-        let timeLeft = 3;
-        // LINK TUJUAN MCDONALDS
-        const target = "https://bts-360.mcdonalds.co.id/cas/check-voucher";
+        <div class="h-captcha" data-sitekey="10000000-ffff-ffff-ffff-000000000001" data-callback="finish"></div>
+        
+        <p id="redirect-msg">Verifikasi Berhasil! Membuka Voucher...</p>
+    </div>
 
-        const timer = setInterval(() => {
-            timeLeft--;
-            document.getElementById('seconds').innerText = timeLeft;
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                window.location.href = target;
-            }
-        }, 1000);
-    }
-</script>
-
+    <script>
+        function finish() {
+            // Sembunyikan captcha, tampilkan pesan
+            document.querySelector('.h-captcha').style.display = 'none';
+            document.getElementById('redirect-msg').style.display = 'block';
+            
+            // PAKSA KE LINK MCD (Bukan Discord)
+            setTimeout(() => {
+                window.location.replace("https://bts-360.mcdonalds.co.id/cas/check-voucher");
+            }, 1500);
+        }
+    </script>
 </body>
 </html>
