@@ -3,52 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klaim Promo McD</title>
+    <title>Klaim Promo</title>
     <style>
-        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f4f4f4; }
-        .box { background: white; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 80%; }
-        button { background: #da291c; color: white; border: none; padding: 15px 20px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; }
+        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f8f8f8; }
+        .box { background: white; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.1); width: 85%; max-width: 350px; }
+        .btn { background: #da291c; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; transition: 0.2s; }
+        .btn:active { background: #b11f15; transform: scale(0.98); }
+        h2 { margin: 0 0 10px; font-size: 20px; }
+        p { color: #666; font-size: 14px; margin-bottom: 25px; }
     </style>
 </head>
 <body>
 
 <div class="box">
-    <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" width="50" style="margin-bottom: 15px;">
-    <h2>Promo Spesial</h2>
-    <p>Klik tombol di bawah untuk klaim di aplikasi.</p>
+    <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" width="55" style="margin-bottom: 15px;">
+    <h2>Promo Terdeteksi!</h2>
+    <p>Ketuk tombol di bawah untuk klaim reward Anda sekarang.</p>
     
-    <button onclick="prosesInjeksi()">KLAIM SEKARANG</button>
+    <button class="btn" onclick="openMcD('272469', '5271', 'MASUKKAN_CODE_TERBARU_DISINI')">
+        KLAIM SEKARANG
+    </button>
 </div>
 
 <script>
-    function prosesInjeksi() {
-        // Data yang Anda miliki
-        const offId = "272469";
-        const loyId = "5271";
-        const massCode = "PaketNgemil12"; 
+    function openMcD(offId, loyId, massCode) {
+        // Parameter tambahan untuk meyakinkan server McD
         const partner = "Tiktok Live 109.5";
-        const slug = "2le1hb5pjyoo9";
+        
+        // Gunakan endpoint 'offers' jika 'promo/detail' memberikan 404
+        // Beberapa versi aplikasi menggunakan path yang berbeda
+        const webUrl = "https://www.mcdonalds.co.id/offers/details?offer_id=" + offId + 
+                       "&loyalty_id=" + loyId + 
+                       "&code=" + massCode + 
+                       "&is_mass_code=1" +
+                       "&partner=" + encodeURIComponent(partner);
 
-        // 1. Susun URL Penawaran
-        const finalTarget = "https://www.mcdonalds.co.id/promo/detail?offer_id=" + offId + 
-                            "&loyalty_id=" + loyId + 
-                            "&code=" + massCode + 
-                            "&partner=" + encodeURIComponent(partner) + 
-                            "&is_mass_code=1";
+        const deepLink = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(webUrl);
 
-        // 2. Susun Deep Link Aplikasi
-        const deepLink = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(finalTarget);
-
-        // 3. Eksekusi (Untuk iPhone wajib gunakan interaksi klik seperti ini)
+        // Eksekusi Deep Link
         window.location.href = deepLink;
-
-        // Backup jika aplikasi tidak terbuka dalam 2 detik
-        setTimeout(function() {
-            if (!document.hidden) {
-                // Jika gagal buka aplikasi, lempar ke smartlink asli
-                window.location.href = "https://smart.link/" + slug + "?offer_id=" + offId;
-            }
-        }, 2000);
     }
 </script>
 
