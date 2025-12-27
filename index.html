@@ -1,4 +1,42 @@
-// FORMAT BARU: Langsung ke sistem promo tanpa lewat smart.link yang rewel
-const finalTarget = `https://www.mcdonalds.co.id/promo/detail?offer_id=${offId}&loyalty_id=${loyId}&code=${massCode}&partner=${encodeURIComponent(partner)}&is_mass_code=1`;
+function claimVoucher(offId, loyId, massCode) {
+    // Slug yang Anda miliki
+    const slug = "2le1hb5pjyoo9"; 
+    const partner = "Tiktok Live 109.5";
+    
+    // 1. Metadata tambahan agar iOS tidak menganggap ini 'bot click'
+    const ts = Math.floor(Date.now() / 1000);
+    
+    // 2. Susun URL Smartlink (Gunakan af_dp sebagai backup deep link di iOS)
+    const baseUrl = `https://smart.link/${slug}`;
+    const queryParams = `?offer_id=${offId}&loyalty_id=${loyId}&code=${massCode}&partner=${encodeURIComponent(partner)}&is_mass_code=1&ts=${ts}`;
+    
+    const finalTarget = baseUrl + queryParams;
 
-const deepLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(finalTarget)}`;
+    // 3. DI iOS: Protokol gmalite:// harus sangat bersih
+    // Kita coba gunakan skema gmalite-smartweb dengan format yang lebih sederhana
+    const deepLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(finalTarget)}`;
+
+    // 4. KHUSUS iOS: Gunakan simulasi klik fisik (Location Replace sering memicu Error 500 di iOS)
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isIOS) {
+        // iOS butuh interaksi yang lebih 'halus'
+        // Kita gunakan link transparan yang diklik otomatis
+        const a = document.createElement('a');
+        a.href = deepLink;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+    } else {
+        // Android tetap gunakan Intent atau Location
+        window.location.href = deepLink;
+    }
+
+    // Jika dalam 2 detik masih di browser, berarti link gagal/error
+    setTimeout(function() {
+        if (!document.hidden) {
+            // Jika gagal, jangan lempar ke App Store, tapi lempar ke web McD resmi
+            window.location.replace("https://www.mcdonalds.co.id/promo");
+        }
+    }, 2000);
+}
