@@ -1,21 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Redirect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promo Eksklusif McDonald's</title>
+    <style>
+        :root { --mcd-red: #da291c; --mcd-yellow: #ffbc0d; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background: #f4f4f4; margin: 0; padding: 20px; color: #333; }
+        header { text-align: center; padding: 20px 0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1000px; margin: auto; }
+        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: 0.3s; border: 1px solid #ddd; }
+        .card:hover { transform: translateY(-5px); }
+        .card-body { padding: 20px; text-align: center; }
+        h3 { margin: 10px 0; font-size: 1.2rem; height: 3rem; display: flex; align-items: center; justify-content: center; }
+        .price-tag { color: var(--mcd-red); font-weight: bold; font-size: 1.3rem; margin-bottom: 15px; }
+        .btn-claim { 
+            display: block; background: var(--mcd-yellow); color: #222; text-decoration: none; 
+            padding: 12px; border-radius: 8px; font-weight: bold; transition: 0.2s;
+        }
+        .btn-claim:hover { background: #eab10c; }
+        .footer-note { text-align: center; font-size: 0.8rem; color: #888; margin-top: 40px; }
+    </style>
 </head>
 <body>
-    <script>
-        window.onload = function() {
-            // Kita lewati smart.link yang meminta lisensi
-            // Kita langsung tembak ke URL tujuan promonya
-            var urlAsli = "gmalite://gmalite-smartweb?weburl=https://smart.link/redirect?slug=2e5d9984m04hg";
-            
-            // ATAU gunakan URL mentah jika Smartlink memblokir:
-            // var urlAsli = "gmalite://gmalite-smartweb?weburl=https://www.mcdonalds.co.id/promo";
 
-            window.location.replace(urlAsli);
-        };
-    </script>
+<header>
+    <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" alt="McD Logo" width="60">
+    <h1>Pilih Promo Anda</h1>
+    <p>Klik tombol di bawah untuk langsung klaim di aplikasi</p>
+</header>
+
+<div class="grid" id="katalog">
+    </div>
+
+<div class="footer-note">
+    *Pastikan aplikasi McDonald's sudah terinstal di HP Anda.
+</div>
+
+<script>
+    // Database Offer & Loyalty ID yang Anda berikan
+    const promoData = [
+        { menu: "Panas 1", offer: "267611", loyalty: "5272" },
+        { menu: "1 Cheesburger + 1 Small French Fries", offer: "272395", loyalty: "5271" },
+        { menu: "1 Ayam + 1 McFloat + 1 French Fries", offer: "272400", loyalty: "5271" },
+        { menu: "1 McFlurry + 1 French Fries", offer: "272404", loyalty: "5271" },
+        { menu: "4 Pcs McNugget + 1 Coca Cola", offer: "272469", loyalty: "5271" },
+        { menu: "1 Ayam + 1 Nasi + 1 Fruit Tea Lemon", offer: "272484", loyalty: "5271" }
+    ];
+
+    const container = document.getElementById('katalog');
+
+    promoData.forEach(item => {
+        // Membuat link injeksi mandiri (Bypass Smartlink)
+        // Format: gmalite://gmalite-smartweb?weburl=[URL_TUJUAN]
+        const injectionLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent('https://smart.link/redirect?offer_id=' + item.offer + '&loyalty_id=' + item.loyalty)}`;
+
+        container.innerHTML += `
+            <div class="card">
+                <div class="card-body">
+                    <h3>${item.menu}</h3>
+                    <div class="price-tag">Rp 400</div>
+                    <a href="${injectionLink}" class="btn-claim">KLAIM PROMO</a>
+                </div>
+            </div>
+        `;
+    });
+
+    // Proteksi: Jika dibuka di PC, tampilkan peringatan sederhana
+    if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        console.log("Sistem mendeteksi akses dari Desktop. Fitur injeksi hanya aktif di perangkat mobile.");
+    }
+</script>
+
 </body>
 </html>
