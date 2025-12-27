@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Promo</title>
+    <meta charset="UTF-8">
+    <title>Redirect</title>
 </head>
 <body>
     <script>
-        // Versi paling pendek, mustahil ada lisensi tersembunyi
         window.onload = function() {
-            var target = "gmalite://gmalite-smartweb?weburl=https://smart.link/2e5d9984m04hg";
-            window.location.replace(target);
+            // Kita lewati smart.link yang meminta lisensi
+            // Kita langsung tembak ke URL tujuan promonya
+            var urlAsli = "gmalite://gmalite-smartweb?weburl=https://smart.link/redirect?slug=2e5d9984m04hg";
+            
+            // ATAU gunakan URL mentah jika Smartlink memblokir:
+            // var urlAsli = "gmalite://gmalite-smartweb?weburl=https://www.mcdonalds.co.id/promo";
+
+            window.location.replace(urlAsli);
         };
     </script>
 </body>
