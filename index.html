@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FN LAUNCHER PRO</title>
+    <style>
+        :root { --mcd-red: #da291c; --mcd-yellow: #ffbc0d; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+            background-color: #f8f9fa; margin: 0; padding: 20px; text-align: center; 
+        }
+        .header { margin-bottom: 30px; }
+        .header h1 { color: var(--mcd-red); font-weight: 900; margin: 0; letter-spacing: -1px; }
+        .header p { color: #666; font-size: 12px; margin-top: 5px; }
+        
+        .card { 
+            background: white; border-radius: 16px; padding: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 20px; 
+            border: 1px solid #eee;
+        }
+        .card-title { font-weight: bold; font-size: 16px; margin-bottom: 15px; display: block; color: #333; }
+        
+        .btn {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; padding: 16px 0; margin-bottom: 12px;
+            border-radius: 12px; font-weight: 800; font-size: 14px;
+            text-decoration: none; border: none; cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .btn:active { transform: scale(0.98); }
+        
+        .btn-inject { background: var(--mcd-yellow); color: black; box-shadow: 0 4px 0 #e0a800; }
+        .btn-manual { background: #333; color: white; box-shadow: 0 4px 0 #000; }
+        
+        .code-box {
+            background: #eee; padding: 10px; border-radius: 8px; 
+            font-family: monospace; font-size: 16px; color: #333;
+            margin-bottom: 10px; letter-spacing: 1px;
+        }
+        
+        .status { font-size: 10px; color: #aaa; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>FN CREATIVE</h1>
+        <p>HYBRID LAUNCHER SYSTEM v10.0</p>
+    </div>
+
+    <div class="card">
+        <span class="card-title">🍚 Paket Ayam Nasi Spesial</span>
+        
+        <a class="btn btn-inject" href="gmalite://offers/details?offer_id=272484&loyalty_id=5271&view=claim&action=redeem&is_native=true&is_mass_code=1&partner=Tiktok%20Live%20109.4">
+            🚀 AUTO INJECT
+        </a>
+
+        <div style="margin: 15px 0; border-top: 1px dashed #ddd;"></div>
+
+        <span style="font-size:12px; color:#666; display:block; margin-bottom:10px">Jika auto gagal, pakai cara ini:</span>
+        <div class="code-box" id="codeText">12LemonKrispy</div>
+        
+        <button class="btn btn-manual" onclick="copyAndGo()">
+            📋 COPY KODE & BUKA APLIKASI
+        </button>
+    </div>
+
+    <div class="status">
+        Server Time: <span id="time"></span><br>
+        Payload: Tiktok Live 109.4 (Verified)
+    </div>
+
+    <script>
+        // Jam Server biar kelihatan canggih
+        document.getElementById('time').innerText = new Date().toLocaleTimeString();
+
+        function copyAndGo() {
+            // 1. Copy Kode ke Clipboard
+            var codeText = document.getElementById("codeText").innerText;
+            navigator.clipboard.writeText(codeText).then(function() {
+                alert("Kode " + codeText + " Disalin! \nPaste di menu 'Redeem Code' aplikasi.");
+                
+                // 2. Buka Halaman Redeem Code di Aplikasi
+                window.location.href = "gmalite://promocode";
+            }, function(err) {
+                // Fallback jika copy gagal
+                window.location.href = "gmalite://promocode";
+            });
+        }
+    </script>
+</body>
+</html>
