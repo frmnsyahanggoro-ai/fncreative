@@ -3,37 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>McD Injector</title>
+    <title>McD Injector PRO</title>
     <style>
         body { font-family: -apple-system, sans-serif; background: #FFBC0D; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .card { background: white; padding: 40px; border-radius: 30px; text-align: center; width: 85%; max-width: 320px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
-        .btn-mcd { display: block; padding: 20px; background: #DB3434; color: white; text-decoration: none; border-radius: 15px; font-weight: bold; font-size: 18px; margin-top: 25px; border: none; cursor: pointer; width: 100%; -webkit-appearance: none; }
+        .btn-mcd { display: block; padding: 20px; background: #DB3434; color: white; text-decoration: none; border-radius: 15px; font-weight: bold; font-size: 18px; margin-top: 25px; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <img src="https://www.mcdonalds.co.id/assets/img/mcdonalds_logo_gold.png" width="80">
-    <h2 style="color: #333; margin-top: 20px;">INJECTOR READY</h2>
-    <p style="color: #666; font-size: 14px;">Klik tombol di bawah untuk menyambungkan ke aplikasi.</p>
+    <h2 style="color: #333; margin-top: 20px;">INJECTOR AKTIF</h2>
+    <p style="color: #666; font-size: 14px;">Klik tombol di bawah untuk klaim promo.</p>
     
-    <button onclick="launchApp()" class="btn-mcd">INJECT SEKARANG</button>
+    <a href="https://u.mcd.com/app/offer-details?offerId=272489" id="final-btn" class="btn-mcd">GAS INJECT!</a>
     
-    <p style="font-size: 10px; color: #aaa; margin-top: 20px;">Pastikan Aplikasi McD Indonesia sudah terinstall.</p>
+    <p style="font-size: 10px; color: #aaa; margin-top: 20px;">v2.0 - Clean Version</p>
 </div>
 
 <script>
-    function launchApp() {
-        const id = "272489";
-        
-        // JALUR 1: Mencoba paksa buka skema aplikasi
-        window.location.href = "mcdonalds://GMA/OfferDetails?offerId=" + id;
-
-        // JALUR 2: Cadangan jika jalur 1 gagal (Universal Link)
-        setTimeout(function() {
-            window.location.href = "https://scans.mcd.com/app/offer-details?offerId=" + id + "&loyaltyId=5271";
-        }, 500);
-    }
+    // Mencegah redirect otomatis agar tidak kena cache Mukidi
+    document.getElementById('final-btn').onclick = function(e) {
+        // Jika tetap error server, kita coba paksa pakai skema internal
+        const target = "https://u.mcd.com/app/offer-details?offerId=272489";
+        window.location.href = target;
+        return false;
+    };
 </script>
 
 </body>
