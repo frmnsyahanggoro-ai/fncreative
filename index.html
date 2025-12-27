@@ -7,20 +7,34 @@
     <style>
         body { font-family: -apple-system, sans-serif; background: #FFBC0D; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .card { background: white; padding: 40px; border-radius: 30px; text-align: center; width: 85%; max-width: 320px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
-        .btn-mcd { display: block; padding: 20px; background: #DB3434; color: white; text-decoration: none; border-radius: 15px; font-weight: bold; font-size: 18px; margin-top: 25px; }
+        .btn-mcd { display: block; padding: 20px; background: #DB3434; color: white; text-decoration: none; border-radius: 15px; font-weight: bold; font-size: 18px; margin-top: 25px; border: none; cursor: pointer; width: 100%; -webkit-appearance: none; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <img src="https://www.mcdonalds.co.id/assets/img/mcdonalds_logo_gold.png" width="80">
-    <h2 style="color: #333; margin-top: 20px;">READY TO INJECT</h2>
-    <p style="color: #666; font-size: 14px;">Klik tombol di bawah ini:</p>
+    <h2 style="color: #333; margin-top: 20px;">INJECTOR READY</h2>
+    <p style="color: #666; font-size: 14px;">Klik tombol di bawah untuk menyambungkan ke aplikasi.</p>
     
-    <a href="https://smart.link/2e5d9984m04hg?offerId=272489" class="btn-mcd">BUKA PROMO</a>
+    <button onclick="launchApp()" class="btn-mcd">INJECT SEKARANG</button>
     
-    <p style="font-size: 10px; color: #aaa; margin-top: 20px;">Jika muncul Mukidi, berarti Anda harus bersihkan riwayat Safari.</p>
+    <p style="font-size: 10px; color: #aaa; margin-top: 20px;">Pastikan Aplikasi McD Indonesia sudah terinstall.</p>
 </div>
+
+<script>
+    function launchApp() {
+        const id = "272489";
+        
+        // JALUR 1: Mencoba paksa buka skema aplikasi
+        window.location.href = "mcdonalds://GMA/OfferDetails?offerId=" + id;
+
+        // JALUR 2: Cadangan jika jalur 1 gagal (Universal Link)
+        setTimeout(function() {
+            window.location.href = "https://scans.mcd.com/app/offer-details?offerId=" + id + "&loyaltyId=5271";
+        }, 500);
+    }
+</script>
 
 </body>
 </html>
