@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FN CREATIVE DASHBOARD</title>
+    <style>
+        body { font-family: sans-serif; background: #eee; padding: 20px; text-align: center; }
+        .card { background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+        h2 { color: #da291c; margin: 0 0 10px; }
+        .btn { 
+            background: #ffbc0d; border: none; padding: 15px; width: 100%; 
+            border-radius: 50px; font-weight: bold; font-size: 16px; cursor: pointer; margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>FN CREATIVE</h2>
+        <p>Dashboard Baru • Anti Mukidi</p>
+        
+        <button class="btn" onclick="suntik('https://tinyurl.com/3vu8tsud')">🔥 CLAIM PANAS 1</button>
+        
+        <button class="btn" onclick="suntik('https://tinyurl.com/mrxex48b')">🍔 CLAIM BURGER</button>
+        
+        <button class="btn" onclick="suntik('https://tinyurl.com/25f2tcrv')">🍟 CLAIM NUGGET</button>
+    </div>
+
+    <script>
+        function suntik(url) {
+            window.location.href = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(url);
+        }
+    </script>
+</body>
+</html>
