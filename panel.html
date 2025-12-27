@@ -2,47 +2,39 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <style>
-        body { font-family: -apple-system, sans-serif; background: #da291c; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; color: white; }
-        .box { background: white; padding: 25px; border-radius: 25px; width: 85%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); color: #333; }
-        input { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; }
-        .btn { background: #ffbc0d; color: #333; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; cursor: pointer; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Injeksi Aktif</title>
 </head>
-<body>
-
-    <div class="box">
-        <h3 style="margin-top:0; text-align:center;">INTERNAL INJECTOR</h3>
-        <input type="number" id="o" placeholder="Offer ID" inputmode="numeric">
-        <input type="number" id="l" placeholder="Loyalty ID" inputmode="numeric">
-        <button class="btn" onclick="gas()">INJECT VOUCHER</button>
-    </div>
+<body style="background:#da291c; color:white; text-align:center; padding-top:50px;">
+    <h2>MENYAMBUNGKAN KE SERVER...</h2>
+    <p>Harap tunggu, jangan tutup aplikasi.</p>
 
     <script>
-        function gas() { 
-            var o = document.getElementById('o').value; 
-            var l = document.getElementById('l').value; 
-            if(!o || !l) return; 
+        window.onload = function() {
+            // Data Harta Karun dari Sniffing Anda
+            var o = "272484"; 
+            var l = "5271";
+            var p = encodeURIComponent("Tiktok Live 109.4");
 
-            // BYPASS LAYAR PUTIH:
-            // Kita tidak pakai window.location.href biasa.
-            // Kita pakai link 'smart.link' asli yang sudah di-URL Encode 
-            // agar Cloudflare McD tidak curiga.
-            
-            var payload = "offer_id=" + o + "&loyalty_id=" + l + "&view=claim&is_mass_code=1&action=redeem&is_native=true";
-            
-            // Inilah link rahasia Mukidi yang tidak akan membuat layar putih:
-            var target = "gmalite://offers/details?" + payload;
-            
-            // Eksekusi paksa
-            window.location.replace(target);
+            // RAHASIA MUKIDI: Gunakan skema 'redeem' langsung, bukan 'details'
+            // Karena data Anda menunjukkan ini adalah 'mass_code'
+            var target = "gmalite://offers/redeem?offer_id=" + o + 
+                         "&loyalty_id=" + l + 
+                         "&view=claim" + 
+                         "&is_mass_code=1" + 
+                         "&partner=" + p + 
+                         "&is_native=true";
 
-            // Jika masih di halaman yang sama (layar putih), paksa tutup webview
+            // Eksekusi otomatis dalam 1 detik
             setTimeout(function() {
-                window.location.href = "gmalite://home"; 
-            }, 1500);
-        }
+                window.location.replace(target);
+            }, 1000);
+            
+            // Backup jika tetap diam (Jalur Voucher Aktif)
+            setTimeout(function() {
+                window.location.replace("gmalite://offers/details?offer_id=" + o + "&loyalty_id=" + l + "&partner=" + p);
+            }, 2500);
+        };
     </script>
 </body>
 </html>
