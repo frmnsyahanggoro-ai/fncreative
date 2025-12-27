@@ -3,25 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>McD Promo</title>
+    <title>Redirecting...</title>
     <style>
         body { font-family: -apple-system, sans-serif; background: #FFBC0D; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: white; padding: 40px 20px; border-radius: 30px; text-align: center; width: 85%; max-width: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        /* Link Langsung Tanpa Script */
-        .btn-mcd { display: block; padding: 20px; background: #DB3434; color: white; text-decoration: none; border-radius: 15px; font-weight: bold; font-size: 18px; margin-top: 25px; }
+        .card { background: white; padding: 40px 20px; border-radius: 30px; text-align: center; width: 85%; max-width: 320px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #DB3434; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .btn-mcd { display: block; padding: 18px; background: #DB3434; color: white; text-decoration: none; border-radius: 15px; font-weight: bold; font-size: 17px; margin-top: 20px; border: none; width: 100%; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <img src="https://www.mcdonalds.co.id/assets/img/mcdonalds_logo_gold.png" width="80">
-    <h2 style="color: #333; margin-top: 20px;">PROMO SIAP</h2>
-    <p style="color: #666; font-size: 14px;">Klik tombol merah untuk klaim.</p>
+    <div class="loader"></div>
+    <h2 style="color: #333; font-size: 20px; margin: 0;">Menghubungkan...</h2>
+    <p style="color: #666; font-size: 14px; margin-top: 10px;">Sedang menyuntikkan voucher ke aplikasi McDonald's.</p>
     
-    <a href="https://u.mcd.com/app/offer-details?offerId=272489" class="btn-mcd">KLAIM VOUCHER</a>
-    
-    <p style="font-size: 10px; color: #aaa; margin-top: 20px;">Pastikan sudah login di aplikasi McD.</p>
+    <button onclick="gas()" class="btn-mcd">BUKA VOUCHER</button>
 </div>
+
+<script>
+    function gas() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const offerId = urlParams.get('id') || '272489';
+        
+        // JALUR 1: Internal App Scheme (Tanpa butuh Server/Internet)
+        const scheme = "mcdonalds://GMA/OfferDetails?offerId=" + offerId + "&loyaltyId=5271";
+        
+        // JALUR 2: Alternatif GmaLite
+        const gma = "gmalite://GMA/OfferDetails?offerId=" + offerId;
+
+        // Eksekusi langsung ke aplikasi
+        window.location.href = scheme;
+
+        // Jika dalam 1 detik aplikasi tidak terbuka, coba skema cadangan
+        setTimeout(function() {
+            window.location.href = gma;
+        }, 1000);
+    }
+</script>
 
 </body>
 </html>
