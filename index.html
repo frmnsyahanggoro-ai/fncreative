@@ -1,16 +1,40 @@
 function forceInject(offId, loyId) {
-    const mCode = "PaketNgemil12"; 
-    
-    // Format REDEEM langsung (Tanpa lewat Smartlink)
-    // Ini mencoba memicu jendela "Tukar Sekarang" yang ada di aplikasi
-    const directRedeem = `gmalite://offers/redeem?offer_id=${offId}&loyalty_id=${loyId}&code=${mCode}&is_mass_code=1&partner=Tiktok%20Live%20109.5`;
+        const slug = "2le1hb5pjyoo9"; 
+        const mCode = "PaketNgemil12"; 
+        const partner = "Tiktok Live 109.5";
+        
+        // 1. PROTOKOL NATIVE (Pemicu Menu Klaim)
+        // Kita langsung tembak ke modul 'redeem' agar aplikasi memunculkan jendela klaim
+        const forceRedeem = `gmalite://offers/redeem?offer_id=${offId}&loyalty_id=${loyId}&code=${mCode}&is_mass_code=1&partner=${encodeURIComponent(partner)}`;
 
-    // Kita jalankan dua kali dengan jeda singkat
-    window.location.href = directRedeem;
-    
-    setTimeout(() => {
-        // Jika tidak muncul, coba pemicu paksa ke WebView dengan mode 'Claim'
-        const forceView = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent('https://www.mcdonalds.co.id/offers/details?offer_id='+offId+'&view=claim')}`;
-        window.location.href = forceView;
-    }, 500);
-}
+        // 2. PROTOKOL TRACKING (Pemicu Aktivasi Smartlink)
+        const trackingParams = new URLSearchParams({
+            offer_id: offId,
+            loyalty_id: loyId,
+            code: mCode,
+            is_mass_code: "1",
+            partner: partner,
+            source: "direct",
+            site_id: "facebook_ads"
+        }).toString();
+
+        const finalTarget = `https://smart.link/${slug}?${trackingParams}`;
+        const injectionLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(finalTarget)}`;
+
+        // --- EKSEKUSI STRATEGI BARU ---
+        
+        // Pertama: Tembak Native Redeem untuk memicu Menu Klaim muncul di depan
+        window.location.href = forceRedeem;
+
+        // Kedua: Berikan jeda 800ms, lalu suntikkan Tracking-nya di latar belakang
+        // Ini agar aplikasi memvalidasi sesi tepat setelah menu klaim terbuka
+        setTimeout(() => {
+            // Gunakan iframe tersembunyi agar tidak terjadi refresh halaman yang merusak menu klaim
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = injectionLink;
+            document.body.appendChild(iframe);
+            
+            setTimeout(() => document.body.removeChild(iframe), 2000);
+        }, 800);
+    }
