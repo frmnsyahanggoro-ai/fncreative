@@ -3,59 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FN DASHBOARD - UNLOCKED</title>
+    <title>FN GHOST INJECTOR</title>
     <style>
         body { font-family: -apple-system, sans-serif; background: #fff; padding: 20px; text-align: center; }
         .box { border: 2px solid #da291c; border-radius: 15px; padding: 20px; margin-top: 10px; }
         h2 { color: #da291c; margin: 0; font-weight: 900; }
         p { font-size: 11px; color: #999; margin-bottom: 20px; }
         
-        /* Tombol Link dengan Target Blank */
+        /* Tombol Eksekusi */
         .btn { 
             display: block; width: 100%; padding: 15px 0; margin: 10px 0;
             background: #ffbc0d; color: #000; font-weight: 800; 
-            text-decoration: none; border-radius: 50px; font-size: 14px;
+            border: none; border-radius: 50px; font-size: 14px;
             box-shadow: 0 4px 0 #d49c0a; cursor: pointer;
         }
-        .btn:active { transform: translateY(4px); box-shadow: none; }
+        .btn:active { transform: translateY(4px); box-shadow: none; background: #e0a800; }
         
-        .note { font-size: 10px; color: #aaa; margin-top: 15px; }
+        #status { font-weight: bold; margin-top: 10px; font-size: 12px; height: 20px; color: green;}
     </style>
 </head>
 <body>
 
     <div class="box">
         <h2>FN CREATIVE</h2>
-        <p>MODE: TARGET BLANK (JAILBREAK)</p>
+        <p>METODE: GHOST IFRAME (IOS BYPASS)</p>
 
-        <a class="btn" target="_blank" href="gmalite://offers/details?offer_id=267611&loyalty_id=5272&view=claim&action=redeem&is_native=true&is_mass_code=1">
-            🔥 CLAIM PANAS 1
-        </a>
+        <button class="btn" onclick="hantu('267611', '5272')">🔥 CLAIM PANAS 1</button>
 
-        <a class="btn" target="_blank" href="gmalite://offers/details?offer_id=272395&loyalty_id=5271&view=claim&action=redeem&is_native=true&is_mass_code=1">
-            🍔 CLAIM BURGER
-        </a>
+        <button class="btn" onclick="hantu('272395', '5271')">🍔 CLAIM BURGER</button>
 
-        <a class="btn" target="_blank" href="gmalite://offers/details?offer_id=272469&loyalty_id=5271&view=claim&action=redeem&is_native=true&is_mass_code=1">
-            🍟 CLAIM NUGGET
-        </a>
+        <button class="btn" onclick="hantu('272469', '5271')">🍟 CLAIM NUGGET</button>
         
-        <a class="btn" target="_blank" href="gmalite://offers/details?offer_id=272400&loyalty_id=5271&view=claim&action=redeem&is_native=true&is_mass_code=1">
-             🥤 CLAIM MCFLOAT
-        </a>
+        <button class="btn" onclick="hantu('272400', '5271')">🥤 CLAIM MCFLOAT</button>
 
-         <a class="btn" target="_blank" href="gmalite://offers/details?offer_id=272404&loyalty_id=5271&view=claim&action=redeem&is_native=true&is_mass_code=1">
-             🍦 CLAIM MCFLURRY
-        </a>
+         <button class="btn" onclick="hantu('272404', '5271')">🍦 CLAIM MCFLURRY</button>
 
-         <a class="btn" target="_blank" href="gmalite://offers/details?offer_id=272484&loyalty_id=5271&view=claim&action=redeem&is_native=true&is_mass_code=1">
-             🍚 CLAIM AYAM NASI
-        </a>
+         <button class="btn" onclick="hantu('272484', '5271')">🍚 CLAIM AYAM NASI</button>
 
-        <div class="note">
-            Jika diklik masih diam, Tekan & Tahan tombol lalu pilih 'Open Link'.
-        </div>
+        <div id="status"></div>
     </div>
 
+    <script>
+        function hantu(offerId, loyaltyId) {
+            // Tampilkan status biar kelihatan ada proses
+            document.getElementById('status').innerText = "Menyuntikkan ID: " + offerId + "...";
+
+            // RAKIT URL LENGKAP
+            var targetUrl = "gmalite://offers/details?offer_id=" + offerId + "&loyalty_id=" + loyaltyId + "&view=claim&action=redeem&is_native=true&is_mass_code=1";
+
+            // TEKNIK HANTU (IFRAME INJECTION)
+            // Kita bikin elemen iframe sembunyi-sembunyi
+            var iframe = document.createElement("iframe");
+            iframe.style.border = "none";
+            iframe.style.width = "1px";
+            iframe.style.height = "1px";
+            iframe.style.display = "none";
+            
+            // Masukkan link voucher ke dalam iframe
+            iframe.src = targetUrl;
+            
+            // Tempel ke body (Ini yang memicu iOS untuk membuka link)
+            document.body.appendChild(iframe);
+
+            // Bersihkan jejak setelah 2 detik
+            setTimeout(function() {
+                document.body.removeChild(iframe);
+                document.getElementById('status').innerText = "Selesai. Cek Voucher.";
+            }, 2000);
+        }
+    </script>
 </body>
 </html>
