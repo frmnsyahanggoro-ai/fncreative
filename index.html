@@ -3,45 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klaim Promo</title>
+    <meta name="referrer" content="no-referrer">
+    <title>Klaim Reward</title>
     <style>
-        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f8f8f8; }
-        .box { background: white; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.1); width: 85%; max-width: 350px; }
-        .btn { background: #da291c; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; transition: 0.2s; }
-        .btn:active { background: #b11f15; transform: scale(0.98); }
-        h2 { margin: 0 0 10px; font-size: 20px; }
-        p { color: #666; font-size: 14px; margin-bottom: 25px; }
+        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f4f4f4; }
+        .card { background: white; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.1); width: 80%; }
+        .btn { background: #da291c; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" width="55" style="margin-bottom: 15px;">
-    <h2>Promo Terdeteksi!</h2>
-    <p>Ketuk tombol di bawah untuk klaim reward Anda sekarang.</p>
-    
-    <button class="btn" onclick="openMcD('272469', '5271', 'MASUKKAN_CODE_TERBARU_DISINI')">
-        KLAIM SEKARANG
-    </button>
+<div class="card">
+    <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" width="50" style="margin-bottom: 15px;">
+    <h3>Reward Siap Diklaim</h3>
+    <p>Klik tombol di bawah untuk memproses penawaran.</p>
+    <button class="btn" onclick="directInject()">AMBIL SEKARANG</button>
 </div>
 
 <script>
-    function openMcD(offId, loyId, massCode) {
-        // Parameter tambahan untuk meyakinkan server McD
-        const partner = "Tiktok Live 109.5";
+    function directInject() {
+        const offId = "272469";
+        const loyId = "5271";
+        const massCode = "PaketNgemil12"; // Tetap masukkan kode ini
+        const slug = "2le1hb5pjyoo9"; // Gunakan slug baru Anda
+
+        // RAHASIA MUKIDI: Mereka sering menggunakan format 'offers/v1' 
+        // atau langsung melempar ke smartlink di dalam gmalite tanpa domain mcdonalds.co.id
         
-        // Gunakan endpoint 'offers' jika 'promo/detail' memberikan 404
-        // Beberapa versi aplikasi menggunakan path yang berbeda
-        const webUrl = "https://www.mcdonalds.co.id/offers/details?offer_id=" + offId + 
-                       "&loyalty_id=" + loyId + 
-                       "&code=" + massCode + 
-                       "&is_mass_code=1" +
-                       "&partner=" + encodeURIComponent(partner);
+        // Coba format 1 (Direct Smartlink Injection):
+        const targetRaw = `https://smart.link/${slug}?offer_id=${offId}&loyalty_id=${loyId}&code=${massCode}&is_mass_code=1`;
+        
+        // Kita gunakan gmalite-smartweb tapi isinya langsung link tracking
+        const finalDeepLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(targetRaw)}`;
 
-        const deepLink = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(webUrl);
+        // Eksekusi
+        window.location.href = finalDeepLink;
 
-        // Eksekusi Deep Link
-        window.location.href = deepLink;
+        // Backup jika tetap 404, gunakan format Native (Tanpa weburl):
+        setTimeout(() => {
+            if (!document.hidden) {
+                const nativeLink = `gmalite://offers/details?offer_id=${offId}&loyalty_id=${loyId}`;
+                window.location.href = nativeLink;
+            }
+        }, 1500);
     }
 </script>
 
