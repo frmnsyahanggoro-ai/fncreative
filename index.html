@@ -1,54 +1,27 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FN Creative - Injector</title>
-    <style>
-        body { font-family: -apple-system, sans-serif; background: #FFBC0D; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
-        .container { background: white; padding: 40px 20px; border-radius: 35px; text-align: center; width: 85%; max-width: 320px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); border: 2px solid #f1f1f1; }
-        .logo { width: 80px; margin-bottom: 20px; }
-        h2 { font-size: 20px; color: #333; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
-        p { color: #666; font-size: 14px; margin: 10px 0 25px; line-height: 1.5; }
-        .btn-inject { background: #DB3434; color: white; text-decoration: none; padding: 18px 30px; border-radius: 15px; font-weight: bold; font-size: 18px; display: block; transition: 0.3s; border: none; width: 100%; cursor: pointer; box-shadow: 0 8px 15px rgba(219, 52, 52, 0.3); }
-        .btn-inject:active { transform: scale(0.96); box-shadow: none; }
-        .status { font-size: 10px; color: #aaa; margin-top: 20px; font-weight: bold; }
-    </style>
+    <title>McD Injector</title>
 </head>
-<body>
+<body style="background:#FFBC0D; font-family:sans-serif; text-align:center; padding-top:100px;">
+    <div style="background:white; padding:40px 20px; border-radius:30px; display:inline-block; box-shadow:0 10px 25px rgba(0,0,0,0.2); width:80%; max-width:300px;">
+        <img src="https://www.mcdonalds.co.id/assets/img/mcdonalds_logo_gold.png" width="80">
+        <h2 style="margin-top:20px;">READY TO GAS</h2>
+        <p id="info">Menyiapkan Voucher...</p>
+        <button onclick="inject()" style="background:#DB3434; color:white; padding:15px 30px; border:none; border-radius:15px; font-weight:bold; font-size:18px; cursor:pointer; width:100%;">BUKA PROMO</button>
+    </div>
 
-<div class="container">
-    <img src="https://www.mcdonalds.co.id/assets/img/mcdonalds_logo_gold.png" class="logo" alt="McD">
-    <h2>Promo Injector</h2>
-    <p id="msg">Menyiapkan jalur transmisi...</p>
-    
-    <button onclick="injectNow()" class="btn-inject">BUKA PROMO</button>
-    
-    <div class="status">VERSION 5.0 - BYPASS WHITELIST</div>
-</div>
+    <script>
+        const p = new URLSearchParams(window.location.search);
+        const id = p.get('id') || '272489';
+        document.getElementById('info').innerText = "Voucher ID: " + id;
 
-<script>
-    // Mengambil ID dari URL (?id=xxxxxx) atau default ke promo McD
-    const params = new URLSearchParams(window.location.search);
-    const offerId = params.get('id') || '272489';
-    document.getElementById('msg').innerText = "Voucher ID: " + offerId + " siap digunakan.";
-
-    function injectNow() {
-        // JALUR 1: Protokol GMA Lite (Jalur utama Whitelist-bot)
-        const gmaPath = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent("https://scans.mcd.com/app/offer-details?offerId=" + offerId + "&loyaltyId=5271");
-        
-        // JALUR 2: Jalur Universal Resmi
-        const webPath = "https://scans.mcd.com/app/offer-details?offerId=" + offerId + "&loyaltyId=5271";
-
-        // Eksekusi: Coba buka aplikasi langsung
-        window.location.href = gmaPath;
-
-        // Jika dalam 1 detik aplikasi tidak terbuka, pindah ke jalur web resmi
-        setTimeout(function() {
-            window.location.href = webPath;
-        }, 1200);
-    }
-</script>
-
+        function inject() {
+            // Jalur Universal (Paling Aman untuk Safari)
+            window.location.href = "https://scans.mcd.com/app/offer-details?offerId=" + id + "&loyaltyId=5271";
+        }
+    </script>
 </body>
 </html>
