@@ -1,13 +1,47 @@
-<script>
-    window.onload = function() {
-        // Kita langsung set datanya tanpa tanya lisensi/password
-        var off = "272469"; 
-        var loy = "5271";
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FN CREATIVE BYPASS</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #da291c; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; color: white; text-align: center; }
+        .box { background: white; padding: 30px; border-radius: 25px; width: 80%; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .btn { background: #ffbc0d; color: #000; border: none; padding: 20px; border-radius: 15px; width: 100%; font-weight: bold; font-size: 18px; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 0 #d49c0a; }
+        .btn:active { transform: translateY(4px); box-shadow: none; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2 style="margin:0; color:#da291c;">VOUCHER DETECTED</h2>
+        <p style="font-size:14px;">Klik tombol di bawah untuk memproses ke sistem kasir.</p>
         
-        // Langsung arahkan ke Smart.link resmi tanpa lewat gate lisensi
-        var target = "gmalite://gmalite-smartweb?weburl=" + 
-                     encodeURIComponent("https://smart.link/2e5d9984m04hg?offer_id=" + off + "&loyalty_id=" + loy);
+        <button class="btn" onclick="tembak('267611', '5272')">TUKARKAN SEKARANG</button>
+        
+        <p style="font-size: 10px; color: #999; margin-top: 15px;">FN-ENGINE v7.0 | Secured Connection</p>
+    </div>
 
-        window.location.href = target;
-    };
-</script>
+    <script>
+        function tembak(off, loy) {
+            // RAHASIA: Gunakan jalur 'offers/redeem' (Bukan details) untuk bypass 'No Response'
+            var partner = encodeURIComponent("Tiktok Live 109.4");
+            
+            // Link Utama
+            var link1 = "gmalite://offers/redeem?offer_id=" + off + 
+                         "&loyalty_id=" + loy + 
+                         "&is_mass_code=1&is_native=true&view=claim&action=redeem&partner=" + partner;
+            
+            // Link Pancingan (Onelink Bypass)
+            var link2 = "gmalite://gmalite-smartweb?weburl=" + 
+                         encodeURIComponent("https://gmalite.onelink.me/vX8W/mukidi?offer_id=" + off);
+
+            // Eksekusi Beruntun (Double Tap)
+            window.location.href = link1;
+            
+            setTimeout(function() {
+                window.location.href = link2;
+            }, 500);
+        }
+    </script>
+</body>
+</html>
