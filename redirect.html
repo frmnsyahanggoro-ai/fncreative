@@ -3,77 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>McDonald's Auto Reward - FN CREATIVE</title>
+    <title>FN CREATIVE - AUTO CLAIM</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f8f9fa; margin: 0; padding: 15px; color: #333; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h3 { color: #da291c; margin: 0; font-weight: 800; }
-        .stats { display: flex; justify-content: space-between; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; font-size: 12px; }
-        .balance-card { background: linear-gradient(135deg, #da291c, #b31b1b); color: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 10px rgba(218, 41, 28, 0.3); }
-        .item-card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; }
-        .item-info { width: 60%; }
-        .item-name { font-weight: bold; font-size: 14px; margin-bottom: 5px; }
-        .item-price { color: #28a745; font-size: 12px; font-weight: bold; }
-        .btn-claim { background: #ffbc0d; color: #000; border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 12px; cursor: pointer; text-transform: uppercase; }
-        .btn-claim:active { transform: scale(0.95); }
+        body { font-family: -apple-system, sans-serif; background: #f2f2f2; margin: 0; padding: 20px; color: #333; }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h2 { color: #da291c; margin: 0; font-weight: 900; font-size: 24px; letter-spacing: -1px; }
+        .header p { margin: 5px 0 0; font-size: 12px; color: #666; }
+        
+        .card { background: white; border-radius: 16px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
+        .info { flex-grow: 1; }
+        .title { font-weight: bold; font-size: 15px; margin-bottom: 3px; display: block; }
+        .id-badge { background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 10px; color: #555; font-family: monospace; }
+        
+        .btn { 
+            background: #ffbc0d; color: #000; border: none; 
+            padding: 10px 20px; border-radius: 50px; 
+            font-weight: 800; font-size: 12px; cursor: pointer; 
+            box-shadow: 0 3px 0 #d49c0a; min-width: 80px;
+        }
+        .btn:active { transform: translateY(3px); box-shadow: none; }
+        
+        .footer { text-align: center; font-size: 10px; color: #aaa; margin-top: 30px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h3>McDonald's Auto Reward</h3>
-        <span style="font-size: 10px; color: #666;">FN CREATIVE EDITION (FREE)</span>
+        <h2>FN CREATIVE</h2>
+        <p>PREMIUM INJECTOR • NO LICENSE</p>
     </div>
 
-    <div class="stats">
-        <div>Total Attempts: <b>999</b></div>
-        <div>Success Rate: <b style="color:green">100%</b></div>
-    </div>
-
-    <div class="balance-card">
-        <div style="font-size: 12px; opacity: 0.8;">Your Balance</div>
-        <div style="font-size: 24px; font-weight: bold;">UNLIMITED</div>
-        <div style="font-size: 10px; margin-top: 5px;">No License Required</div>
-    </div>
-
-    <div class="item-card">
-        <div class="item-info">
-            <div class="item-name">🔥 Paket Panas 1</div>
-            <div class="item-price">ID: 267611</div>
+    <div class="card">
+        <div class="info">
+            <span class="title">🔥 Panas 1</span>
+            <span class="id-badge">ID: 267611</span>
         </div>
-        <button class="btn-claim" onclick="inject('267611', '5272')">CLAIM</button>
+        <button class="btn" onclick="suntik('https://tinyurl.com/3vu8tsud')">CLAIM</button>
     </div>
 
-    <div class="item-card">
-        <div class="item-info">
-            <div class="item-name">🍟 4 Pcs McNugget + Cola</div>
-            <div class="item-price">ID: 272469</div>
+    <div class="card">
+        <div class="info">
+            <span class="title">🍔 Paket 1 (Burger)</span>
+            <span class="id-badge">ID: 272395</span>
         </div>
-        <button class="btn-claim" onclick="inject('272469', '5271')">CLAIM</button>
+        <button class="btn" onclick="suntik('https://tinyurl.com/mrxex48b')">CLAIM</button>
     </div>
 
-    <div class="item-card">
-        <div class="item-info">
-            <div class="item-name">🍗 Ayam + Nasi + Lemon Tea</div>
-            <div class="item-price">ID: 272484</div>
+    <div class="card">
+        <div class="info">
+            <span class="title">🍗 Paket 2 (McFloat)</span>
+            <span class="id-badge">ID: 272400</span>
         </div>
-        <button class="btn-claim" onclick="inject('272484', '5271')">CLAIM</button>
+        <button class="btn" onclick="suntik('https://tinyurl.com/238ymdyx')">CLAIM</button>
+    </div>
+
+    <div class="card">
+        <div class="info">
+            <span class="title">🍦 Paket 3 (McFlurry)</span>
+            <span class="id-badge">ID: 272404</span>
+        </div>
+        <button class="btn" onclick="suntik('https://tinyurl.com/48nben8r')">CLAIM</button>
+    </div>
+
+    <div class="card">
+        <div class="info">
+            <span class="title">🍟 Paket 4 (Nugget)</span>
+            <span class="id-badge">ID: 272469</span>
+        </div>
+        <button class="btn" onclick="suntik('https://tinyurl.com/25f2tcrv')">CLAIM</button>
+    </div>
+
+    <div class="card">
+        <div class="info">
+            <span class="title">🍚 Paket 5 (Nasi)</span>
+            <span class="id-badge">ID: 272484</span>
+        </div>
+        <button class="btn" onclick="suntik('https://tinyurl.com/59c788cf')">CLAIM</button>
+    </div>
+
+    <div class="footer">
+        FN ENGINE v9.0 • SECURE CONNECTION
     </div>
 
     <script>
-        function inject(off, loy) {
-            // Ini adalah inti script yang dijalankan tombol CLAIM
-            // Kita jalankan di dalam WebView, jadi pasti dianggap 'native'
+        function suntik(urlTiny) {
+            // LOGIKA MUKIDI:
+            // Membuka SmartWeb baru yang memuat TinyURL
+            // TinyURL akan melempar Native Link
+            // Native Link diterima aplikasi -> Voucher Muncul
             
-            var partner = encodeURIComponent("Tiktok Live 109.4");
-            
-            // Kita gunakan jalur /reward/claim karena terbukti dipakai voucher massal
-            var target = "gmalite://reward/claim?offer_id=" + off + 
-                         "&loyalty_id=" + loy + 
-                         "&view=claim&action=redeem&is_native=true&is_mass_code=1" +
-                         "&partner=" + partner;
-
-            // Eksekusi
+            var target = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(urlTiny);
             window.location.href = target;
         }
     </script>
