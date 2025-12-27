@@ -3,44 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>McD Injector PRO</title>
+    <title>Redirecting to McD...</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #FFBC0D; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: white; padding: 30px; border-radius: 25px; text-align: center; width: 85%; max-width: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .btn { display: block; padding: 15px; margin: 10px 0; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; }
-        .btn-1 { background: #DB3434; } /* Metode Utama */
-        .btn-2 { background: #27ae60; } /* Metode Alternatif 1 */
-        .btn-3 { background: #2980b9; } /* Metode Alternatif 2 */
-        .info { font-size: 12px; color: #666; margin-bottom: 15px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #ffffff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { text-align: center; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #ffbc0d; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        h1 { font-size: 18px; color: #333; }
+        .btn-inject { display: inline-block; margin-top: 20px; padding: 12px 25px; background-color: #db3434; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
-    <div class="card">
-        <img src="https://www.mcdonalds.co.id/assets/img/mcdonalds_logo_gold.png" width="60">
-        <h3>Pilih Metode Inject</h3>
-        <p class="info" id="target">Offer ID: Loading...</p>
-        
-        <a href="#" id="link1" class="btn btn-1">METODE 1 (GMA)</a>
-        <a href="#" id="link2" class="btn btn-2">METODE 2 (LITE)</a>
-        <a href="#" id="link3" class="btn btn-3">METODE 3 (UNIVERSAL)</a>
-        
-        <p style="font-size: 10px; color: #aaa; margin-top: 15px;">Coba satu-satu sampai aplikasi terbuka</p>
-    </div>
 
-    <script>
-        const p = new URLSearchParams(window.location.search);
-        const id = p.get('id') || '272489';
-        document.getElementById('target').innerText = "Offer ID: " + id;
+<div class="container">
+    <div class="loader" id="loader"></div>
+    <h1 id="status">Redirecting...</h1>
+    <a href="#" id="manual-btn" class="btn-inject" style="display: none;">Click here for Inject</a>
+</div>
 
-        // Metode 1: Global Scheme
-        document.getElementById('link1').href = `mcdonalds://GMA/OfferDetails?offerId=${id}&loyaltyId=5271`;
+<script>
+    // 1. Ambil Parameter ID dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const offerId = urlParams.get('id');
+
+    // 2. Logika Utama (Sama dengan Whitelist-bot/Mukidi)
+    // Mereka menggunakan gmalite-smartweb dengan weburl ter-encode
+    if (offerId) {
+        const smartLink = "https://smart.link/2e5d9984m04hg";
+        const injectUrl = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(smartLink + '?offerId=' + offerId)}`;
         
-        // Metode 2: GMA Lite Scheme (Web Mukidi pakai ini)
-        const smart = "https://smart.link/2e5d9984m04hg";
-        document.getElementById('link2').href = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(smart + '?offerId=' + id)}`;
+        const btn = document.getElementById('manual-btn');
+        const statusText = document.getElementById('status');
         
-        // Metode 3: Universal Link (Paling Aman dari Error 'Tidak Sah')
-        document.getElementById('link3').href = `https://scans.mcd.com/app/offer-details?offerId=${id}&loyaltyId=5271`;
-    </script>
+        btn.href = injectUrl;
+
+        // Tampilkan tombol setelah 1 detik jika tidak auto-redirect
+        setTimeout(() => {
+            statusText.innerText = "If not redirecting, please click:";
+            btn.style.display = "inline-block";
+            document.getElementById('loader').style.display = "none";
+        }, 1500);
+
+        // Langsung eksekusi Inject (Auto-Run)
+        window.location.href = injectUrl;
+    } else {
+        document.getElementById('status').innerText = "Error: No ID Provided";
+        document.getElementById('loader').style.display = "none";
+    }
+</script>
+
 </body>
 </html>
