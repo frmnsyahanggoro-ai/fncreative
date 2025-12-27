@@ -2,26 +2,29 @@ function claimVoucher(offId, loyId, massCode) {
     const slug = "2le1hb5pjyoo9"; 
     const partner = "Tiktok Live 109.5";
 
-    const queryParams = new URLSearchParams({
-        offer_id: offId,
-        loyalty_id: loyId,
-        code: massCode,
-        partner: partner,
-        is_mass_code: "1"
-    }).toString();
-
-    const finalTarget = `https://smart.link/${slug}?${queryParams}`;
+    // Susun URL Smartlink
+    const finalTarget = `https://smart.link/${slug}?offer_id=${offId}&loyalty_id=${loyId}&code=${massCode}&partner=${encodeURIComponent(partner)}&is_mass_code=1`;
+    
+    // Ini adalah link Deep Link aslinya
     const deepLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(finalTarget)}`;
 
-    // PERBAIKAN: Jangan pakai window.location.replace secara otomatis
-    // Gunakan lokasi langsung pada window utama saat ini
-    window.top.location.href = deepLink;
+    // STRATEGI BYPASS ANDROID (Intent)
+    // Jika user pakai Android, kita gunakan format Intent agar sistem Android yang mencarikan aplikasinya
+    const intentLink = `intent://gmalite-smartweb?weburl=${encodeURIComponent(finalTarget)}#Intent;scheme=gmalite;package=com.mcdonalds.mobileapp;S.browser_fallback_url=${encodeURIComponent(finalTarget)};end`;
 
-    // Fallback: Jika setelah 3 detik masih di browser, berarti aplikasi tidak terbuka
+    // Cek Perangkat
+    const isAndroid = /Android/i.test(navigator.userAgent);
+
+    if (isAndroid) {
+        // Gunakan Intent untuk Android agar tidak about:blank
+        window.location.href = intentLink;
+    } else {
+        // Untuk iPhone atau browser lain, gunakan cara standar
+        window.location.href = deepLink;
+    }
+
+    // Jika tetap diam di halaman, ini cadangan terakhir (Force Redirect)
     setTimeout(function() {
-        if (!document.hidden) {
-            // Arahkan ke Play Store atau Web resmi agar tidak 'about:blank'
-            window.location.href = "https://www.mcdonalds.co.id/promo";
-        }
-    }, 3000);
+        window.location.replace(deepLink);
+    }, 500);
 }
