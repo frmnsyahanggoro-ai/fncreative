@@ -4,66 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer">
-    <title>Pilih Promo McDonald's</title>
+    <title>Sistem Injeksi Promo</title>
     <style>
-        body { font-family: sans-serif; background: #f0f0f0; padding: 20px; text-align: center; }
-        .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; }
-        .btn { background: #ffbc0d; color: #222; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px; }
-        h3 { margin-top: 0; font-size: 18px; color: #da291c; }
-        p { margin: 5px 0 15px; color: #666; font-size: 14px; }
+        body { font-family: sans-serif; background: #eee; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .btn-list { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; }
+        .promo-btn { 
+            background: #da291c; color: white; border: none; padding: 15px; 
+            border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px;
+        }
+        .promo-btn:active { background: #b11f15; }
+        .info { font-size: 12px; color: #666; margin-top: 20px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" width="50" style="margin-bottom: 20px;">
+    <h2>Klaim Promo Aktif</h2>
     
-    <div id="catalog"></div>
+    <div class="btn-list">
+        <button class="promo-btn" onclick="claimVoucher('267611', '5272', 'PaketPanas1')">Klaim Panas 1</button>
+        <button class="promo-btn" onclick="claimVoucher('272395', '5271', 'PaketNgemil01')">Klaim Cheeseburger + FF</button>
+        <button class="promo-btn" onclick="claimVoucher('272469', '5271', 'PaketNgemil12')">Klaim McNugget + Cola</button>
+        <button class="promo-btn" onclick="claimVoucher('272484', '5271', 'PaketNasi05')">Klaim Ayam + Nasi</button>
+    </div>
 
-    <div id="bridge-container" style="display:none;"></div>
+    <div class="info">
+        *Menggunakan Parameter Tiktok Live 109.5<br>
+        Deep Link bypass Aktif
+    </div>
 
     <script>
-        const promos = [
-            { name: "Panas 1", off: "267611", loy: "5272" },
-            { name: "1 Cheeseburger + 1 Small FF", off: "272395", loy: "5271" },
-            { name: "1 Ayam + 1 McFloat + 1 FF", off: "272400", loy: "5271" },
-            { name: "1 McFlurry + 1 FF", off: "272404", loy: "5271" },
-            { name: "4 Pcs McNugget + 1 Cola", off: "272469", loy: "5271" },
-            { name: "1 Ayam + 1 Nasi + 1 Tea", off: "272484", loy: "5271" }
-        ];
-
-        const catalog = document.getElementById('catalog');
-
-        promos.forEach(p => {
-            catalog.innerHTML += `
-                <div class="card">
-                    <h3>${p.name}</h3>
-                    <p>Harga Spesial: Rp 400</p>
-                    <button class="btn" onclick="executeClaim('${p.off}', '${p.loy}')">KLAIM SEKARANG</button>
-                </div>
-            `;
-        });
-
-        function executeClaim(offId, loyId) {
-            // SLUG PENGGANTI: Gunakan slug baru jika slug lama (2e5d9984m04hg) sudah mati
-            const slug = "2e5d9984m04hg"; 
+        function claimVoucher(offId, loyId, massCode) {
+            // Slug yang Anda temukan tadi
+            const slug = "2le1hb5pjyoo9"; 
             
-            // CONSTRUCT LINK: Memasukkan parameter ke dalam link smartlink
-            const finalLink = `https://smart.link/${slug}?offer_id=${offId}&loyalty_id=${loyId}&af_adset=custom&af_ad=manual`;
+            // Partner sesuai hasil HTTP Toolkit Anda
+            const partner = "Tiktok Live 109.5";
 
-            // DEEP LINK SCHEME
-            const deepLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(finalLink)}`;
+            // Susun parameter secara lengkap agar Kochava tidak memblokir
+            const queryParams = new URLSearchParams({
+                offer_id: offId,
+                loyalty_id: loyId,
+                code: massCode,
+                partner: partner,
+                is_mass_code: "1",
+                source: "tiktok",
+                click_id: Math.random().toString(36).substring(2, 15) // Generate ID acak agar dianggap unik
+            }).toString();
 
-            // TEKNIK BYPASS KOCHAVA: Menggunakan window.open dengan referer dibuang
-            const newWindow = window.open('', '_blank');
-            newWindow.opener = null; // Menghilangkan jejak pengirim (Referrer)
-            newWindow.location.href = deepLink;
+            // Format Deep Link untuk Injeksi Browser Internal Aplikasi
+            const finalURL = `https://smart.link/${slug}?${queryParams}`;
+            const deepLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(finalURL)}`;
 
-            // Jika window.open gagal (terhalang popup blocker), gunakan fallback:
-            setTimeout(() => {
-                if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
-                    window.location.replace(deepLink);
-                }
-            }, 500);
+            // Eksekusi
+            console.log("Injeksi URL: " + finalURL);
+            window.location.replace(deepLink);
         }
     </script>
 </body>
