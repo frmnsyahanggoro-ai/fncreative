@@ -1,37 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>McD Injector</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>McD Injector Panel</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px 20px; background: #f4f4f4; }
-        .btn { background: #da291c; color: white; border: none; padding: 20px; border-radius: 10px; width: 100%; font-weight: bold; font-size: 18px; cursor: pointer; display: block; margin-bottom: 10px; text-decoration: none; }
+        body { font-family: -apple-system, sans-serif; background: #f4f4f4; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .panel { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 350px; text-align: center; }
+        .logo { width: 60px; margin-bottom: 15px; }
+        h2 { margin: 0 0 20px 0; color: #333; font-size: 18px; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; font-size: 12px; font-weight: bold; color: #666; margin-bottom: 5px; text-transform: uppercase; }
+        input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; transition: 0.3s; }
+        input:focus { border-color: #da291c; }
+        .btn-inject { background: #da291c; color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(218, 41, 28, 0.3); }
+        .btn-inject:active { transform: scale(0.98); }
+        .footer { margin-top: 20px; font-size: 11px; color: #999; }
     </style>
 </head>
 <body>
 
-    <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" width="60" style="margin-bottom: 20px;">
-    
-    <button class="btn" onclick="jalan('272469', '5271')">INJECT MCNUGGET</button>
-    <button class="btn" onclick="jalan('272484', '5271')">INJECT AYAM NASI</button>
-    <button class="btn" onclick="jalan('267611', '5272')">INJECT PANAS 1</button>
+    <div class="panel">
+        <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" class="logo">
+        <h2>Custom Injector</h2>
+
+        <div class="input-group">
+            <label>Offer ID</label>
+            <input type="number" id="offId" placeholder="Contoh: 272469" inputmode="numeric">
+        </div>
+
+        <div class="input-group">
+            <label>Loyalty ID</label>
+            <input type="number" id="loyId" placeholder="Contoh: 5271" inputmode="numeric">
+        </div>
+
+        <button class="btn-inject" onclick="prosesInject()">DIRECT INJECT</button>
+        
+        <div class="footer">
+            Pastikan aplikasi McD sudah Login sebelum menekan tombol.
+        </div>
+    </div>
 
     <script>
-        function jalan(offId, loyId) {
-            // Jalur Injeksi Tanpa Kode (Hanya Offer ID & Loyalty ID)
-            var target = "https://www.mcdonalds.co.id/rewards/details?offer_id=" + offId + "&loyalty_id=" + loyId + "&view=claim";
-            var link = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(target);
-            
-            // Eksekusi buka aplikasi
-            window.location.href = link;
+        function prosesInject() {
+            var offId = document.getElementById('offId').value;
+            var loyId = document.getElementById('loyId').value;
 
-            // Cadangan jika aplikasi tidak terbuka
+            if (!offId || !loyId) {
+                alert("Harap isi Offer ID dan Loyalty ID!");
+                return;
+            }
+
+            // TEKNIK MUKIDI: Direct Reward Path
+            // Menembak langsung ke modul Reward agar tidak butuh Mass Code
+            var targetUrl = "https://www.mcdonalds.co.id/rewards/details?offer_id=" + offId + 
+                            "&loyalty_id=" + loyId + 
+                            "&view=claim&action=redeem&is_native=true";
+
+            // Deep Link Scheme
+            var finalLink = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(targetUrl);
+
+            // Eksekusi 1: Pemicu Webview
+            window.location.href = finalLink;
+
+            // Eksekusi 2: Pemicu Native (Jeda 1.2 detik)
+            // Ini untuk memastikan modul klaim muncul meskipun webview lambat
             setTimeout(function() {
                 if (!document.hidden) {
-                    window.location.href = "gmalite://loyalty/details?offer_id=" + offId + "&loyalty_id=" + loyId;
+                    var nativePath = "gmalite://loyalty/details?offer_id=" + offId + "&loyalty_id=" + loyId;
+                    window.location.href = nativePath;
                 }
-            }, 1000);
+            }, 1200);
         }
     </script>
 
