@@ -1,28 +1,29 @@
 function injek(offId, loyId) {
-    var mCode = "PaketNgemil12"; // PASTIKAN KODE INI FRESH
+    // Kita hilangkan mCode karena kita akan menembak langsung ke modul Reward
+    var slug = "2le1hb5pjyoo9";
     var partner = encodeURIComponent("Tiktok Live 109.5");
-    
-    // STRATEGI: Hilangkan is_mass_code jika terjadi Error 500
-    // Gunakan format URL yang paling minimalis untuk meminimalkan penolakan server
-    var targetUrl = "https://www.mcdonalds.co.id/offers/redeem/" + offId + 
-                    "?loyalty_id=" + loyId + 
-                    "&code=" + mCode + 
-                    "&partner=" + partner;
 
-    // Gunakan skema gmalite-smartweb dengan enkripsi URL yang benar
+    // TEKNIK MUKIDI: Gunakan path 'rewards' bukan 'offers'
+    // Seringkali modul reward lebih longgar validasinya dibanding modul promo
+    var targetUrl = "https://www.mcdonalds.co.id/rewards/details?offer_id=" + offId + 
+                    "&loyalty_id=" + loyId + 
+                    "&partner=" + partner + 
+                    "&view=active"; // Memaksa status menjadi aktif
+
+    // Gunakan skema gmalite-smartweb
     var finalLink = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(targetUrl);
 
-    // EKSEKUSI
+    // EKSEKUSI UTAMA
     window.location.href = finalLink;
 
-    // Jika Error 500 tetap muncul, gunakan jalur alternatif tanpa "redeem" di URL
+    // JALUR NATIVE BACKUP (Pemicu Tombol Inject)
     setTimeout(function() {
         if (!document.hidden) {
-            var altTarget = "gmalite://offers/details?offer_id=" + offId + 
-                            "&loyalty_id=" + loyId + 
-                            "&code=" + mCode + 
-                            "&force_claim=true";
-            window.location.href = altTarget;
+            // Kita coba skema 'loyalty' jika 'offers' tetap 500
+            var nativeReward = "gmalite://loyalty/details?offer_id=" + offId + 
+                               "&loyalty_id=" + loyId + 
+                               "&force_inject=true";
+            window.location.href = nativeReward;
         }
     }, 1500);
 }
