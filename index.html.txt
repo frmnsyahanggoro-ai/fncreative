@@ -5,61 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>McD Promo Redirect</title>
     <style>
-        body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
-        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; border-top: 6px solid #ffbc0d; max-width: 300px; }
-        .btn { display: inline-block; margin-top: 20px; padding: 15px 30px; background: #db3434; color: white; font-weight: bold; text-decoration: none; border-radius: 50px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background: #f0f0f0; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; max-width: 350px; width: 90%; }
+        .promo-img { width: 100%; border-radius: 15px; margin-bottom: 15px; background: #eee; min-height: 150px; }
+        h2 { font-size: 20px; margin: 10px 0; color: #333; }
+        p { font-size: 14px; color: #666; margin-bottom: 20px; line-height: 1.4; }
+        .btn { display: block; padding: 15px; background: #db3434; color: white; font-weight: bold; text-decoration: none; border-radius: 12px; font-size: 16px; transition: 0.2s; }
+        .btn:active { transform: scale(0.98); background: #bd2a2a; }
+        .loader { font-size: 12px; color: #999; margin-top: 15px; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h3>Membuka Aplikasi McD...</h3>
-        <p id="menu-name">Menyiapkan menu...</p>
-        <a href="#" id="manual-link" class="btn">KLIK UNTUK BUKA</a>
-    </div>
 
-    <script>
-        const offers = {
-            "267611": { n: "Panas 1", l: "5272" },
-            "272395": { n: "1 Cheesburger + 1 Small Fries", l: "5271" },
-            "272400": { n: "1 Ayam + 1 McFloat + 1 Fries", l: "5271" },
-            "272447": { n: "McFlurry + Kentang", l: "5271" },
-            "272449": { n: "Big Mac + McFlurry", l: "5271" },
-            "272478": { n: "2 McSpicy + 1 Nasi + Fruit Tea", l: "5271" },
-            "272489": { n: "McFlurry + Kentang (13k)", l: "5271" }
-            // Tambahkan ID lain di sini jika perlu
-        };
+<div class="card" id="content">
+    <div id="loading">Memuat Promo...</div>
+</div>
 
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
-        const display = document.getElementById('menu-name');
-        const btn = document.getElementById('manual-link');
+<script>
+    // Data JSON yang kamu berikan
+    const data = [
+        {"title":"Panas 1","description":"Panas 1","image":"https://cfg-cdn-west-europe-gma.vmobapps.com/xy/1200/1200?path=op267611_id_H206dbc2f0e-5.png&tId=LGM695&imageFormat=jpeg","offer_id":"267611","loyalty_id":"5272"},
+        {"title":"Paket 1","description":"1 Cheesburger + 1 Small French Fries","image":"https://cfg-cdn-west-europe-gma.vmobapps.com/xy/1200/1200?path=op272395_id_Hf39cb88a3f-5.png&tId=LGM695&imageFormat=jpeg","offer_id":"272395","loyalty_id":"5271"},
+        {"title":"Paket 2","description":"1 Ayam + 1 McFloat + 1 French Fries","image":"https://cfg-cdn-west-europe-gma.vmobapps.com/xy/1200/1200?path=op272400_id_Hbcdb3d63dc-4.png&tId=LGM695&imageFormat=jpeg","offer_id":"272400","loyalty_id":"5271"},
+        {"title":"Paket 3","description":"1 McFlurry + 1 French Fries","image":"https://cfg-cdn-west-europe-gma.vmobapps.com/xy/1200/1200?path=op272404_id_H5afe70d81e-4.png&tId=LGM695&imageFormat=jpeg","offer_id":"272404","loyalty_id":"5271"},
+        {"title":"Paket 4","description":"4 Pcs McNugget + 1 Coca Cola","image":"https://cfg-cdn-west-europe-gma.vmobapps.com/xy/1200/1200?path=op272469_id_Ha14f2ad795-4.png&tId=LGM695&imageFormat=jpeg","offer_id":"272469","loyalty_id":"5271"},
+        {"title":"Paket 5","description":"1 Ayam + 1 Nasi + 1 Fruit Tea Lemon","image":"https://cfg-cdn-west-europe-gma.vmobapps.com/xy/1200/1200?path=op272484_id_H1f02c4948d-4.png&tId=LGM695&imageFormat=jpeg","offer_id":"272484","loyalty_id":"5271"}
+    ];
 
-        if (id && offers[id]) {
-            const item = offers[id];
-            display.innerText = "Menu: " + item.n;
-            
-            // Mencoba berbagai variasi skema deep link
-            const links = [
-                `mcdonalds://GMA/OfferDetails?offerId=${id}&loyaltyId=${item.l}`,
-                `globalmcdonalds://GMA/OfferDetails?offerId=${id}&loyaltyId=${item.l}`,
-                `mcdonalds://offers/details?offerId=${id}`,
-                `https://u.mcd.com/app/offer-details?offerId=${id}`
-            ];
+    const params = new URLSearchParams(window.location.search);
+    const offerId = params.get('id');
+    const container = document.getElementById('content');
 
-            btn.onclick = (e) => {
-                e.preventDefault();
-                links.forEach((link, i) => {
-                    setTimeout(() => { window.location.href = link; }, i * 300);
-                });
-            };
+    // Cari promo berdasarkan ID di URL
+    const promo = data.find(item => item.offer_id === offerId);
 
-            // Jalankan otomatis
-            setTimeout(() => { btn.click(); }, 1000);
+    if (promo) {
+        container.innerHTML = `
+            <img src="${promo.image}" class="promo-img" alt="promo">
+            <h2>${promo.title}</h2>
+            <p>${promo.description}</p>
+            <a href="mcdonalds://GMA/OfferDetails?offerId=${promo.offer_id}&loyaltyId=${promo.loyalty_id}" class="btn" id="openBtn">BUKA DI APLIKASI</a>
+            <div class="loader">Mengarahkan secara otomatis...</div>
+        `;
 
-        } else {
-            display.innerText = "ID Promo tidak valid.";
-            btn.style.display = "none";
-        }
-    </script>
+        // Redirect Otomatis
+        setTimeout(() => {
+            window.location.href = `mcdonalds://GMA/OfferDetails?offerId=${promo.offer_id}&loyaltyId=${promo.loyalty_id}`;
+        }, 1500);
+
+    } else {
+        container.innerHTML = `<h2>Promo Tidak Ditemukan</h2><p>Silahkan cek Offer ID kembali.</p>`;
+    }
+</script>
+
 </body>
 </html>
