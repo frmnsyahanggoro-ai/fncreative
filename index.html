@@ -3,40 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promo McD</title>
+    <title>McD Promo Bypass</title>
     <style>
-        body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #fdfdfd; }
-        .card { text-align: center; padding: 30px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); background: white; max-width: 300px; }
-        .btn { display: inline-block; margin-top: 20px; padding: 15px 30px; background: #db3434; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; }
+        body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #ffffff; }
+        .card { text-align: center; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 320px; border-top: 6px solid #ffbc0d; }
+        .btn-mcd { display: inline-block; padding: 15px 30px; background: #db3434; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; margin-top: 20px; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h3>Membuka Aplikasi McD...</h3>
-        <p id="msg" style="font-size: 14px; color: #666;">Mohon tunggu sebentar</p>
-        <a href="#" id="open-btn" class="btn">BUKA SEKARANG</a>
-    </div>
 
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
-        const btn = document.getElementById('open-btn');
+<div class="card">
+    <img src="https://www.mcdonalds.co.id/assets/img/mcdonalds_logo_gold.png" width="50" alt="McD">
+    <h3>Mengarahkan...</h3>
+    <p id="status">Menghubungkan ke Aplikasi McD</p>
+    <a href="#" id="final-link" class="btn-mcd">KLIK JIKA TIDAK TERBUKA</a>
+</div>
 
-        if (id) {
-            // Skema gmalite yang digunakan web sebelah
-            const smartLink = "https://smart.link/2e5d9984m04hg";
-            const finalUrl = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(smartLink + '?offerId=' + id + '&loyaltyId=5271')}`;
-            
-            btn.href = finalUrl;
+<script>
+    // 1. Ambil ID Promo dari URL kamu
+    const params = new URLSearchParams(window.location.search);
+    const offerId = params.get('id');
+    
+    // 2. Gunakan Loyalty ID default yang sudah kita sniffing sebelumnya
+    const loyaltyId = "5271";
 
-            // Langsung coba buka
-            setTimeout(() => {
-                window.location.href = finalUrl;
-            }, 800);
-        } else {
-            document.getElementById('msg').innerText = "Gunakan Link dengan ID Promo.";
-            btn.style.display = "none";
-        }
-    </script>
+    if (offerId) {
+        // 3. Rakit link 'GMA LITE' yang persis digunakan Mukidi tapi tanpa proteksi lisensi
+        const smartLink = "https://smart.link/2e5d9984m04hg";
+        const targetUrl = smartLink + "?offerId=" + offerId + "&loyaltyId=" + loyaltyId;
+        const deepLink = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(targetUrl);
+        
+        const btn = document.getElementById('final-link');
+        btn.href = deepLink;
+
+        // 4. Langsung tembak ke aplikasi (Bypass/Tanpa Lisensi)
+        window.location.href = deepLink;
+        
+        document.getElementById('status').innerText = "Membuka Offer ID: " + offerId;
+    } else {
+        document.getElementById('status').innerText = "Silakan gunakan ID Promo di URL.";
+    }
+</script>
+
 </body>
 </html>
