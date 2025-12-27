@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>McD Direct Injector</title>
+    <title>McD Injector Bypass</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #222; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: #fff; padding: 30px; border-radius: 25px; width: 85%; max-width: 340px; text-align: center; border-bottom: 5px solid #ffbc0d; }
-        .logo { width: 50px; margin-bottom: 10px; }
-        h2 { margin: 10px 0; font-size: 22px; color: #333; }
-        .desc { font-size: 11px; color: #888; margin-bottom: 20px; }
-        input { width: 100%; padding: 15px; margin-bottom: 12px; border: 2px solid #eee; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; }
+        body { font-family: -apple-system, sans-serif; background: #f4f4f4; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .panel { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 340px; text-align: center; }
+        .logo { width: 50px; margin-bottom: 15px; }
+        h2 { margin: 0 0 20px 0; color: #333; font-size: 18px; }
+        input { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; }
         input:focus { border-color: #da291c; }
-        .btn { background: #da291c; color: #fff; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: bold; font-size: 16px; cursor: pointer; }
+        .btn { background: #da291c; color: white; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: bold; font-size: 16px; cursor: pointer; }
+        .note { font-size: 10px; color: #999; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="card">
+    <div class="panel">
         <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" class="logo">
-        <h2>Panel Injeksi</h2>
-        <p class="desc">Metode Direct Tracking (Bypass 404)</p>
-
+        <h2>Voucher Injector</h2>
+        
         <input type="number" id="off" placeholder="Offer ID (27xxxx)" inputmode="numeric">
         <input type="number" id="loy" placeholder="Loyalty ID (5xxx)" inputmode="numeric">
 
-        <button class="btn" onclick="gasInjek()">BUKA DI APLIKASI</button>
+        <button class="btn" onclick="gasInjek()">INJECT SEKARANG</button>
+        <p class="note">Jika dilempar ke App Store, pastikan aplikasi McD sudah terinstall dan posisi sudah Login.</p>
     </div>
 
     <script>
@@ -38,31 +38,25 @@
                 return;
             }
 
-            // --- PERUBAHAN BESAR ---
-            // Kita tidak menggunakan domain mcdonalds.co.id
-            // Kita gunakan domain tracking Kochava (Smartlink) sebagai JEMBATAN
-            // Slug ini adalah yang paling stabil untuk region Indonesia
-            var slug = "2le1hb5pjyoo9"; 
+            // --- TEKNIK BYPASS 500 & APP STORE ---
+            // Kita gunakan skema 'gmalite://' secara langsung tanpa domain smart.link
+            // Ini memaksa iOS untuk membuka aplikasi secara NATIVE (Tanpa cek server Kochava)
             
-            // Format URL Tracking yang tidak akan 404 karena ini adalah endpoint DATA
-            var trackingUrl = "https://smart.link/" + slug + 
-                              "?offer_id=" + o + 
-                              "&loyalty_id=" + l + 
-                              "&site_id=MUKIDI_INJECT" + 
-                              "&deeplink_path=offers%2Fdetails%3Foffer_id%3D" + o + "%26loyalty_id%3D" + l;
+            // Format 1: Direct Offer Details
+            var pathNative = "gmalite://offers/details?offer_id=" + o + "&loyalty_id=" + l + "&view=claim";
+            
+            // Format 2: Direct Reward Redemption (Jalur Mukidi)
+            var pathReward = "gmalite://rewards/details?offer_id=" + o + "&loyalty_id=" + l;
 
-            // Kita tembak menggunakan gmalite-smartweb
-            var finalDeepLink = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(trackingUrl);
+            // Eksekusi: Coba buka aplikasi langsung
+            window.location.href = pathNative;
 
-            window.location.href = finalDeepLink;
-
-            // Backup Native (Jika Smartlink gagal, paksa ke modul internal aplikasi)
+            // Fallback: Jika dalam 1 detik aplikasi tidak terbuka, coba jalur Reward
             setTimeout(function() {
                 if (!document.hidden) {
-                    // Jalur Native murni tanpa web sama sekali
-                    window.location.href = "gmalite://offers/details?offer_id=" + o + "&loyalty_id=" + l;
+                    window.location.href = pathReward;
                 }
-            }, 1200);
+            }, 1000);
         }
     </script>
 
