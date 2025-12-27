@@ -3,62 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>McD Admin Panel</title>
+    <title>McD Injector V2</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #eef2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .box { background: #ffffff; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 90%; max-width: 360px; text-align: center; }
-        .logo { width: 60px; margin-bottom: 20px; }
-        h2 { margin: 0 0 25px 0; color: #333; font-weight: 700; }
-        .input-box { text-align: left; margin-bottom: 15px; }
-        label { display: block; font-size: 12px; font-weight: 700; color: #da291c; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        input { width: 100%; padding: 15px; border: 2px solid #f0f0f0; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: all 0.3s; background: #fafafa; }
-        input:focus { border-color: #da291c; background: #fff; }
-        .btn-go { background: #da291c; color: #fff; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 700; font-size: 16px; cursor: pointer; margin-top: 15px; box-shadow: 0 5px 15px rgba(218, 41, 28, 0.3); }
-        .btn-go:active { transform: scale(0.96); }
+        body { font-family: -apple-system, sans-serif; background: #da291c; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background: #ffffff; padding: 30px; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); width: 85%; max-width: 350px; text-align: center; }
+        .logo { width: 50px; margin-bottom: 15px; }
+        h2 { margin: 0 0 10px 0; color: #333; font-size: 20px; }
+        p { font-size: 12px; color: #666; margin-bottom: 25px; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; font-size: 11px; font-weight: bold; color: #999; margin-bottom: 5px; text-transform: uppercase; padding-left: 5px; }
+        input { width: 100%; padding: 15px; border: 2px solid #f4f4f4; border-radius: 15px; font-size: 16px; box-sizing: border-box; outline: none; background: #f9f9f9; }
+        input:focus { border-color: #ffbc0d; background: #fff; }
+        .btn-inject { background: #ffbc0d; color: #222; border: none; padding: 18px; border-radius: 15px; width: 100%; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <div class="box">
         <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" class="logo">
-        <h2>Panel Injector</h2>
+        <h2>Smart Injector</h2>
+        <p>Input ID dan tekan inject untuk membuka aplikasi.</p>
 
-        <div class="input-box">
+        <div class="input-group">
             <label>Offer ID</label>
-            <input type="number" id="off" placeholder="Masukkan Offer ID" pattern="\[0-9]*">
+            <input type="number" id="off" placeholder="27xxxx" pattern="[0-9]*">
         </div>
 
-        <div class="input-box">
+        <div class="input-group">
             <label>Loyalty ID</label>
-            <input type="number" id="loy" placeholder="Masukkan Loyalty ID" pattern="\[0-9]*">
+            <input type="number" id="loy" placeholder="5xxx" pattern="[0-9]*">
         </div>
 
-        <button class="btn-go" onclick="eksekusi()">INJECT SEKARANG</button>
+        <button class="btn-inject" onclick="startInject()">INJECT KE APLIKASI</button>
     </div>
 
     <script>
-        function eksekusi() {
+        function startInject() {
             var o = document.getElementById('off').value;
             var l = document.getElementById('loy').value;
 
             if (o == "" || l == "") {
-                alert("Isi kedua ID dulu!");
+                alert("Harap masukkan ID!");
                 return;
             }
 
-            // Jalur Direct Smartweb (Meniru Web Mukidi)
-            var target = "https://www.mcdonalds.co.id/rewards/details?offer_id=" + o + "&loyalty_id=" + l + "&view=claim";
-            var inject = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(target);
+            // --- RAHASIA MUKIDI UNTUK BYPASS 404 ---
+            // Kita tidak langsung menembak URL mcdonalds.co.id
+            // Tapi kita lewatkan melalui Smartlink Slug agar aplikasi mendapatkan 'Session'
+            
+            var slug = "2le1hb5pjyoo9"; // Slug tracking resmi
+            var timestamp = new Date().getTime();
+            
+            // Kita susun URL agar dibaca sebagai 'Direct Campaign' oleh aplikasi
+            var trackingUrl = "https://smart.link/" + slug + 
+                              "?offer_id=" + o + 
+                              "&loyalty_id=" + l + 
+                              "&view=claim" + 
+                              "&time=" + timestamp;
 
-            // Eksekusi Buka Aplikasi
-            window.location.href = inject;
+            // Membuka aplikasi melalui internal browser (Smartweb)
+            // Ini akan membuat aplikasi melakukan 'handshake' dengan server Kochava dulu baru membuka halamannya
+            var finalDeepLink = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(trackingUrl);
 
-            // Cadangan Jalur Native jika weburl tidak memicu tombol
+            window.location.href = finalDeepLink;
+
+            // Backup Native Path (Jalur Belakang)
             setTimeout(function() {
                 if (!document.hidden) {
-                    window.location.href = "gmalite://loyalty/details?offer_id=" + o + "&loyalty_id=" + l;
+                    // Path ini langsung masuk ke modul detail tanpa lewat web
+                    window.location.href = "gmalite://offers/details?offer_id=" + o + "&loyalty_id=" + l;
                 }
-            }, 1000);
+            }, 1500);
         }
     </script>
 
