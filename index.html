@@ -3,45 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penawaran Spesial</title>
+    <title>Promo Terbatas</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; text-align: center; padding: 50px 20px; }
-        .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
-        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #ffbc0d; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+        /* CSS ini untuk meniru gaya tampilan profesional web redirect */
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f0f2f5; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; max-width: 350px; width: 90%; }
+        .logo { width: 80px; margin-bottom: 20px; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #ffbc0d; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        h2 { color: #333; }
-        p { color: #666; }
+        h1 { font-size: 1.5rem; color: #333; margin-bottom: 10px; }
+        p { color: #777; font-size: 0.9rem; line-height: 1.5; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="card">
     <div class="loader"></div>
-    <h2>Memproses Link...</h2>
-    <p>Mohon tunggu sebentar, kami sedang menyiapkan penawaran terbaik untuk Anda.</p>
+    <h1>Memproses Penawaran</h1>
+    <p>Mohon jangan tutup halaman ini. Kami sedang mengalihkan Anda ke halaman promo resmi...</p>
 </div>
 
 <script>
-    // FUNGSI UTAMA: Langsung jalan tanpa cek lisensi
-    window.onload = function() {
-        // 1. Target URL (Link yang tadinya terkunci)
-        const targetApp = "gmalite://gmalite-smartweb?weburl=https://smart.link/2e5d9984m04hg";
+    // INI ADALAH MESINNYA (TANPA CEK LISENSI)
+    (function() {
+        // Link tujuan (diambil dari data mukidi yang Anda berikan)
+        const target = "gmalite://gmalite-smartweb?weburl=https://smart.link/2e5d9984m04hg";
         
-        // 2. Deteksi apakah pengguna pakai HP (Karena gmalite:// hanya jalan di HP)
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-        if (isMobile) {
-            // Langsung alihkan tanpa syarat
-            setTimeout(() => {
-                window.location.href = targetApp;
-            }, 1500); 
-        } else {
-            // Jika dibuka di komputer, arahkan ke Google agar tidak curiga
-            setTimeout(() => {
-                window.location.href = "https://www.google.com";
-            }, 1500);
+        // Fungsi pengalihan langsung
+        function redirectNow() {
+            // Kita gunakan 'replace' agar user tidak bisa tekan tombol 'back' ke halaman ini
+            window.location.replace(target);
         }
-    };
+
+        // Jalankan setelah 2 detik (memberi kesan sistem sedang bekerja)
+        setTimeout(redirectNow, 2000);
+
+        // Jika dalam 5 detik tidak redirect (berarti aplikasi tidak ada/bukan di HP)
+        // Maka arahkan ke Google agar web Anda tidak terlihat mencurigakan
+        setTimeout(function() {
+            window.location.replace("https://www.google.com");
+        }, 5000);
+    })();
 </script>
 
 </body>
