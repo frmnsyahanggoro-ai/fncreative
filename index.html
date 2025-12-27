@@ -1,29 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>System</title>
     <script>
         window.onload = function() {
-            // Data Sniffing Valid kamu:
-            var offerId = "272484";
-            var loyaltyId = "5271";
+            // Gunakan salah satu ID dari daftar emas kamu tadi
+            var off = "272469"; // Contoh: McNugget
+            var loy = "5271";
             var partner = encodeURIComponent("Tiktok Live 109.4");
 
-            // Membuat link klaim yang persis dengan struktur iklan asli
-            var targetKlaim = "https://www.mcdonalds.co.id/promo/details?" + 
-                              "offer_id=" + offerId + 
-                              "&loyalty_id=" + loyaltyId + 
-                              "&view=claim&is_mass_code=1&partner=" + partner;
+            // URL yang menipu aplikasi seolah-olah ini dari server mereka
+            var target = "gmalite://offers/details?" + 
+                         "offer_id=" + off + 
+                         "&loyalty_id=" + loy + 
+                         "&view=claim" + 
+                         "&is_mass_code=1" + 
+                         "&partner=" + partner + 
+                         "&action=redeem" + 
+                         "&is_native=true";
 
-            // BUNGKUS DALAM SMARTWEB
-            var finalTrigger = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(targetKlaim);
-
-            // EKSEKUSI PAKSA
-            window.location.replace(finalTrigger);
-            
-            // FALLBACK JIKA GAGAL (Tembak Native Langsung)
-            setTimeout(function() {
-                window.location.replace("gmalite://offers/details?offer_id=" + offerId + "&loyalty_id=" + loyaltyId + "&view=claim&partner=" + partner);
-            }, 1000);
+            // Eksekusi otomatis
+            window.location.replace(target);
         };
     </script>
 </head>
