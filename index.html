@@ -3,46 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promo McDonald's Indonesia</title>
+    <title>Promo McD</title>
     <style>
-        body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #ffffff; }
-        .container { text-align: center; padding: 20px; }
-        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #ffbc0d; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .btn-mcd { display: inline-block; padding: 15px 30px; background: #db3434; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; margin-top: 10px; box-shadow: 0 4px 15px rgba(219,52,52,0.3); }
+        body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #fdfdfd; }
+        .card { text-align: center; padding: 30px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); background: white; max-width: 300px; }
+        .btn { display: inline-block; margin-top: 20px; padding: 15px 30px; background: #db3434; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; }
     </style>
 </head>
 <body>
+    <div class="card">
+        <h3>Membuka Aplikasi McD...</h3>
+        <p id="msg" style="font-size: 14px; color: #666;">Mohon tunggu sebentar</p>
+        <a href="#" id="open-btn" class="btn">BUKA SEKARANG</a>
+    </div>
 
-<div class="container">
-    <div class="loader"></div>
-    <h3>Mengarahkan ke Aplikasi McD...</h3>
-    <p id="info" style="color: #666; font-size: 14px;">Jika aplikasi tidak terbuka otomatis,<br>silakan klik tombol di bawah:</p>
-    <a href="#" id="final-link" class="btn-mcd">BUKA PROMO SEKARANG</a>
-</div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const btn = document.getElementById('open-btn');
 
-<script>
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    const loyalty = "5271";
+        if (id) {
+            // Skema gmalite yang digunakan web sebelah
+            const smartLink = "https://smart.link/2e5d9984m04hg";
+            const finalUrl = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(smartLink + '?offerId=' + id + '&loyaltyId=5271')}`;
+            
+            btn.href = finalUrl;
 
-    if (id) {
-        // Ini adalah skema 'GMA Lite' yang terbukti berhasil di web referensi kamu
-        const smartLink = "https://smart.link/2e5d9984m04hg";
-        const targetUrl = `${smartLink}?offerId=${id}&loyaltyId=${loyalty}`;
-        const deepLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(targetUrl)}`;
-        
-        const btn = document.getElementById('final-link');
-        btn.href = deepLink;
-
-        // Eksekusi pengalihan otomatis
-        setTimeout(() => {
-            window.location.href = deepLink;
-        }, 500);
-    } else {
-        document.getElementById('info').innerText = "Silakan gunakan ID Promo yang valid.";
-    }
-</script>
-
+            // Langsung coba buka
+            setTimeout(() => {
+                window.location.href = finalUrl;
+            }, 800);
+        } else {
+            document.getElementById('msg').innerText = "Gunakan Link dengan ID Promo.";
+            btn.style.display = "none";
+        }
+    </script>
 </body>
 </html>
