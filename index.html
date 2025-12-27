@@ -1,41 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>redirect</title>
-</head>
-<body>
+function injek(offId, loyId) {
+    var mCode = "PaketNgemil12";
+    var slug = "2le1hb5pjyoo9";
+    
+    // STRATEGI: Jangan buat ID acak. 
+    // Kita biarkan Smartlink yang membuat ID-nya sendiri dan langsung meneruskannya ke App.
+    // Kita hapus parameter ko_click_id dari skrip agar tidak bentrok dengan ID asli dari Kochava.
+    
+    var targetUrl = "https://smart.link/" + slug + 
+                    "?offer_id=" + offId + 
+                    "&loyalty_id=" + loyId + 
+                    "&code=" + mCode + 
+                    "&is_mass_code=1" +
+                    "&partner=Tiktok%20Live%20109.5";
 
-<a href="#" onclick="mockInject('123','456')">
-  Click here for Inject gmalite-smartweb
-</a>
+    // KUNCI iOS: Gunakan skema 'af_dp' (AppsFlyer/Kochava Deep Link) 
+    // yang dibungkus dalam gmalite-smartweb
+    var finalLink = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(targetUrl);
 
-<script>
-function mockInject(offId, loyId) {
-  const code = "DEMO_CODE";
-  const fakeClickId = "ko_demo_" + Math.random().toString(36).slice(2, 10);
+    // EKSEKUSI 1: Buka Webview Smartlink (Ini akan mendaftarkan klik Anda secara sah)
+    window.location.href = finalLink;
 
-  // URL tracking PALSU
-  const trackingUrl =
-    "https://example.test/track" +
-    "?offer_id=" + offId +
-    "&loyalty_id=" + loyId +
-    "&click_id=" + fakeClickId;
-
-  // Scheme PALSU (tidak terdaftar di OS)
-  const fakeScheme =
-    "demoapp://smartweb?weburl=" +
-    encodeURIComponent(trackingUrl);
-
-  // Simulasi redirect
-  console.log("Redirect to:", fakeScheme);
-
-  // Simulasi server error
-  document.body.innerHTML =
-    "<h1>500 Internal Server Error</h1>" +
-    "<p>Mock server failure after security check</p>";
+    // EKSEKUSI 2: Force Native (Hanya jika webview gagal memunculkan tombol)
+    setTimeout(function() {
+        if (!document.hidden) {
+            // Gunakan path 'offers/v1/details' - ini path yang sering dipakai untuk memicu tombol klaim
+            var forcePath = "gmalite://offers/v1/details?offer_id=" + offId + 
+                            "&loyalty_id=" + loyId + 
+                            "&code=" + mCode + 
+                            "&is_mass_code=1";
+            window.location.href = forcePath;
+        }
+    }, 1500);
 }
-</script>
-
-</body>
-</html>
