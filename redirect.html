@@ -3,55 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FN CREATIVE - INJECTOR V8</title>
+    <title>BYPASS SANDBOX MODE</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #111; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; color: white; }
-        .box { background: #fff; padding: 25px; border-radius: 20px; width: 85%; color: #333; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .btn-link { 
-            display: block; background: #ffbc0d; color: #000; text-decoration: none; 
-            padding: 20px; border-radius: 12px; font-weight: bold; font-size: 18px; 
-            margin-top: 15px; border: 2px solid #da291c;
+        body { font-family: sans-serif; background: #eee; padding: 20px; text-align: center; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h3 { color: #da291c; margin-top: 0; }
+        
+        /* Gaya Tombol yang Agresif */
+        .btn { 
+            display: block; 
+            background: #ffbc0d; 
+            color: black; 
+            text-decoration: none; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            font-size: 16px;
+            border-bottom: 4px solid #d49c0a;
         }
-        .desc { font-size: 13px; color: #666; margin-bottom: 15px; }
+        .btn:active { border-bottom: 0; transform: translateY(4px); }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <h3 style="color:#da291c; margin-bottom:5px;">INJEKSI SIAP</h3>
-    <p class="desc">Sistem mendeteksi voucher <b>Panas 1</b>.<br>Klik tombol di bawah untuk klaim.</p>
+<div class="card">
+    <h3>PILIH MENU & GAS!</h3>
+    <p style="font-size:12px; color:#555;">Jika diklik diam, tekan tahan lalu pilih 'Open'.</p>
 
-    <a id="trigger" href="#" class="btn-link">AMBIL VOUCHER</a>
+    <a class="btn" target="_blank" href="gmalite://offers/details?offer_id=267611&loyalty_id=5272&view=claim&action=redeem&is_native=true&is_mass_code=1">
+        🔥 PANAS 1
+    </a>
 
-    <p style="font-size: 9px; color: #bbb; margin-top: 15px;">FN-ENGINE v8.0 FIXED</p>
+    <a class="btn" target="_blank" href="gmalite://offers/details?offer_id=272484&loyalty_id=5271&view=claim&action=redeem&is_native=true&is_mass_code=1">
+        🍗 AYAM + NASI
+    </a>
+
+    <a class="btn" target="_blank" href="gmalite://offers/details?offer_id=272469&loyalty_id=5271&view=claim&action=redeem&is_native=true&is_mass_code=1">
+        🍟 MCNUGGET
+    </a>
+
+    <br>
+    <a href="gmalite://home" target="_blank" style="font-size:10px; color:#999;">Kembali ke Home</a>
 </div>
-
-<script>
-    // Konfigurasi ID (Panas 1 sebagai contoh)
-    var off = "267611";
-    var loy = "5272";
-    var partner = encodeURIComponent("Tiktok Live 109.4");
-
-    // RAHASIA MUKIDI: Kita pakai URL mcdonalds resmi tapi dialihkan ke native
-    // Ini akan menembus blokir "No Response" karena dianggap navigasi internal
-    var finalLink = "gmalite://offers/details?" + 
-                    "offer_id=" + off + 
-                    "&loyalty_id=" + loy + 
-                    "&view=claim&is_native=true&is_mass_code=1&action=redeem&partner=" + partner;
-
-    // Masukkan link ke dalam tombol saat halaman dimuat
-    document.getElementById('trigger').href = finalLink;
-
-    // Jika diklik tapi tetap diam, kita paksa pakai jalur kedua
-    document.getElementById('trigger').onclick = function() {
-        var fallback = "gmalite://offers/redeem?offer_id=" + off + "&loyalty_id=" + loy;
-        
-        // Tembak jalur cadangan setelah 0.3 detik
-        setTimeout(function() {
-            window.location.href = fallback;
-        }, 300);
-    };
-</script>
 
 </body>
 </html>
