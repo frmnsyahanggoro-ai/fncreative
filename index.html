@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>McD Launcher Fix</title>
-    <style>
-        body { font-family: -apple-system, sans-serif; text-align: center; padding: 50px 20px; background: #da291c; color: white; }
-        .btn { background: #ffbc0d; color: #222; border: none; padding: 20px; border-radius: 15px; width: 100%; font-weight: bold; font-size: 18px; cursor: pointer; }
-    </style>
-</head>
-<body>
-    <img src="https://www.mcdonalds.co.id/assets/img/common/mcdonalds_logo.png" width="80">
-    <h2>MCD INJECTOR</h2>
-    <p>Gunakan Safari. Pastikan sudah Login di App McD.</p>
-    <button class="btn" onclick="gas()">BUKA PANEL INTERNAL</button>
-
     <script>
-        function gas() {
-            // Ambil URL panel.html milikmu
-            var currentPath = window.location.href.split('index.html')[0];
-            var myPanel = currentPath + "panel.html";
+        window.onload = function() {
+            // Data Sniffing Valid kamu:
+            var offerId = "272484";
+            var loyaltyId = "5271";
+            var partner = encodeURIComponent("Tiktok Live 109.4");
+
+            // Membuat link klaim yang persis dengan struktur iklan asli
+            var targetKlaim = "https://www.mcdonalds.co.id/promo/details?" + 
+                              "offer_id=" + offerId + 
+                              "&loyalty_id=" + loyaltyId + 
+                              "&view=claim&is_mass_code=1&partner=" + partner;
+
+            // BUNGKUS DALAM SMARTWEB
+            var finalTrigger = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(targetKlaim);
+
+            // EKSEKUSI PAKSA
+            window.location.replace(finalTrigger);
             
-            // BYPASS 500: Kita tidak pakai smart.link di depan.
-            // Kita pakai jalur internal mcdonalds.co.id yang diproses secara lokal oleh App.
-            var trigger = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(myPanel);
-            
-            // Eksekusi
-            window.location.href = trigger;
-        }
+            // FALLBACK JIKA GAGAL (Tembak Native Langsung)
+            setTimeout(function() {
+                window.location.replace("gmalite://offers/details?offer_id=" + offerId + "&loyalty_id=" + loyaltyId + "&view=claim&partner=" + partner);
+            }, 1000);
+        };
     </script>
+</head>
+<body style="background:#da291c;">
 </body>
 </html>
