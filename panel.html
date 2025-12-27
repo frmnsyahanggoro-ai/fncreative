@@ -1,9 +1,11 @@
 function gas() {
     var o = document.getElementById('o').value;
     var l = document.getElementById('l').value;
+    if(!o || !l) return alert("Isi ID!");
+
+    // JALUR MUKIDI ASLI:
+    // Jangan pakai HTTPS, langsung tembak ke protocol gmalite
+    var finalTarget = "gmalite://offers/details?offer_id=" + o + "&loyalty_id=" + l + "&view=claim&is_mass_code=1";
     
-    // Gunakan perintah NATIVE (Langsung memicu tampilan voucher di aplikasi)
-    var nativeLink = "gmalite://offers/details?offer_id=" + o + "&loyalty_id=" + l + "&view=claim&is_mass_code=1";
-    
-    window.location.href = nativeLink;
+    window.location.href = finalTarget;
 }
