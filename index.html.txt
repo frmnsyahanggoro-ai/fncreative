@@ -1,46 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>McD Promo Redirect</title>
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
-        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; border-top: 5px solid #ffbc0d; }
-        .btn { display: inline-block; margin-top: 20px; padding: 15px 30px; background: #bd0017; color: white; font-weight: bold; text-decoration: none; border-radius: 50px; }
+        body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; border-top: 6px solid #ffbc0d; max-width: 300px; }
+        .btn { display: inline-block; margin-top: 20px; padding: 15px 30px; background: #db3434; color: white; font-weight: bold; text-decoration: none; border-radius: 50px; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h3>Mengarahkan ke Aplikasi McD...</h3>
-        <p id="menu-name">Sedang memproses ID...</p>
-        <a href="#" id="manual-link" class="btn">BUKA PROMO SEKARANG</a>
+        <h3>Membuka Aplikasi McD...</h3>
+        <p id="menu-name">Menyiapkan menu...</p>
+        <a href="#" id="manual-link" class="btn">KLIK UNTUK BUKA</a>
     </div>
 
     <script>
+        const offers = {
+            "267611": { n: "Panas 1", l: "5272" },
+            "272395": { n: "1 Cheesburger + 1 Small Fries", l: "5271" },
+            "272400": { n: "1 Ayam + 1 McFloat + 1 Fries", l: "5271" },
+            "272447": { n: "McFlurry + Kentang", l: "5271" },
+            "272449": { n: "Big Mac + McFlurry", l: "5271" },
+            "272478": { n: "2 McSpicy + 1 Nasi + Fruit Tea", l: "5271" },
+            "272489": { n: "McFlurry + Kentang (13k)", l: "5271" }
+            // Tambahkan ID lain di sini jika perlu
+        };
+
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
         const display = document.getElementById('menu-name');
         const btn = document.getElementById('manual-link');
 
-        if (id) {
-            display.innerText = "Membuka Offer ID: " + id;
+        if (id && offers[id]) {
+            const item = offers[id];
+            display.innerText = "Menu: " + item.n;
             
-            // Kita coba 3 skema sekaligus
-            const link1 = "mcdonalds://GMA/OfferDetails?offerId=" + id;
-            const link2 = "globalmcdonalds://GMA/OfferDetails?offerId=" + id;
-            const link3 = "https://u.mcd.com/app/offer-details?offerId=" + id;
+            // Mencoba berbagai variasi skema deep link
+            const links = [
+                `mcdonalds://GMA/OfferDetails?offerId=${id}&loyaltyId=${item.l}`,
+                `globalmcdonalds://GMA/OfferDetails?offerId=${id}&loyaltyId=${item.l}`,
+                `mcdonalds://offers/details?offerId=${id}`,
+                `https://u.mcd.com/app/offer-details?offerId=${id}`
+            ];
 
-            btn.href = link1;
+            btn.onclick = (e) => {
+                e.preventDefault();
+                links.forEach((link, i) => {
+                    setTimeout(() => { window.location.href = link; }, i * 300);
+                });
+            };
 
-            // Eksekusi otomatis
-            window.location.href = link1;
-            
-            setTimeout(() => { window.location.href = link2; }, 800);
-            setTimeout(() => { window.location.href = link3; }, 1500);
-            
+            // Jalankan otomatis
+            setTimeout(() => { btn.click(); }, 1000);
+
         } else {
-            display.innerText = "Masukkan ID di URL (contoh: ?id=12345)";
+            display.innerText = "ID Promo tidak valid.";
             btn.style.display = "none";
         }
     </script>
