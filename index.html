@@ -1,96 +1,60 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FN VIP INJECTOR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px; color: #333; text-align: center; }
-        
-        .container {
-            max-width: 400px; margin: 0 auto; background: white;
-            border-radius: 20px; padding: 30px 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        /* GAYA ASLI WHITELIST-BOT (POLOS) */
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #ffffff;
+            color: #000000;
         }
-
-        h1 { color: #da291c; font-weight: 900; margin: 0; font-size: 24px; }
-        p { color: #888; font-size: 11px; margin-top: 5px; margin-bottom: 25px; }
-        
-        .voucher-box {
-            background: #fffcf0; border: 1px solid #ffbc0d; border-radius: 12px;
-            padding: 15px; margin-bottom: 20px;
+        p {
+            font-size: 16px;
+            margin-bottom: 10px;
         }
-        .voucher-title { font-weight: bold; font-size: 14px; }
-        .voucher-desc { font-size: 10px; color: #666; margin-top: 5px; }
-
-        .btn {
-            display: block; width: 100%; padding: 16px 0; margin-bottom: 12px;
-            border-radius: 50px; border: none; font-weight: 800; font-size: 14px;
-            cursor: pointer; text-decoration: none; transition: 0.1s;
+        a {
+            font-size: 20px;
+            color: blue;
+            text-decoration: underline;
+            font-weight: bold;
         }
-        .btn:active { transform: scale(0.97); }
-
-        /* TOMBOL UTAMA (EMAS) */
-        .btn-gold { 
-            background: linear-gradient(to bottom, #ffbc0d, #e0a50b); 
-            color: black; box-shadow: 0 5px 15px rgba(255, 188, 13, 0.4); 
-        }
-
-        /* TOMBOL CADANGAN (BIRU) */
-        .btn-blue { 
-            background: white; border: 2px solid #4285F4; color: #4285F4;
-        }
-        
-        .debug-info { font-size: 9px; color: #ccc; margin-top: 20px; font-family: monospace; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>FN CREATIVE</h1>
-        <p>SMART INJECTOR: NEW GATEWAY</p>
-
-        <div class="voucher-box">
-            <div class="voucher-title">🍚 PAKET AYAM NASI (TIKTOK)</div>
-            <div class="voucher-desc">Target: 2e5d9984m04hg (New!)</div>
-        </div>
-
-        <button class="btn btn-gold" onclick="injectNewSmart()">
-            🚀 INJECT VIA NEW SMART LINK
-        </button>
-
-        <button class="btn btn-blue" onclick="injectGoogle()">
-            🌍 CADANGAN (GOOGLE MODE)
-        </button>
-        
-        <div class="debug-info">Gateway ID: 2e5d9984m04hg</div>
-    </div>
+    <p>Redirect</p>
+    
+    <a id="injectBtn" href="#">
+       Click here for Inject
+    </a>
 
     <script>
-        function injectNewSmart() {
-            // 1. SIAPKAN MUATAN (VOUCHER)
-            var rawVoucher = "gmalite://offers/details?offer_id=272484&loyalty_id=5271&view=claim&action=redeem&is_native=true&partner=Tiktok";
-            var encodedVoucher = encodeURIComponent(rawVoucher);
+        // --- LOGIKA MESIN DI BAWAH KAP ---
+        
+        // 1. DATA TARGET (Voucher Ayam Nasi)
+        var voucherUrl = "gmalite://offers/details?offer_id=272484&loyalty_id=5271&view=claim&action=redeem&is_native=true&partner=Tiktok";
+        var encodedVoucher = encodeURIComponent(voucherUrl);
 
-            // 2. TEMPELKAN KE LINK BARU (2e5d9984m04hg)
-            // Kita pakai parameter lengkap biar tidak nyasar ke AppStore
-            var targetLink = "https://smart.link/2e5d9984m04hg?deep_link_value=" + encodedVoucher + "&af_dp=" + encodedVoucher + "&is_retargeting=true&af_force_deeplink=true";
+        // 2. KENDARAAN (Smart Link 'rwdy...' yang baru kamu dapat)
+        // Kita paksa dia membawa muatan (deep_link_value) agar tidak lari ke AppStore
+        var smartLink = "https://smart.link/rwdy6f7x8pz1n?deep_link_value=" + encodedVoucher + "&af_dp=" + encodedVoucher + "&is_retargeting=true";
+        var encodedSmartLink = encodeURIComponent(smartLink);
 
-            // 3. TEMBAK PINTU BELAKANG (Browser Internal)
-            // Kita bungkus lagi pakai gmalite-smartweb untuk memastikan trigger internal
-            window.location.href = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(targetLink);
-        }
+        // 3. PELUNCUR (Perintah Browser Internal)
+        var finalLink = "gmalite://gmalite-smartweb?weburl=" + encodedSmartLink;
 
-        function injectGoogle() {
-            // Backup Plan: Buka Google di dalam App
-            var googleLink = "gmalite://gmalite-smartweb?weburl=https://www.google.com";
-            var voucherLink = "https://tinyurl.com/479wbat5";
-            
-            navigator.clipboard.writeText(voucherLink).then(function() {
-                alert("Link Voucher Disalin!\n\n1. App akan membuka Google.\n2. Paste Link di Google Search.\n3. Klik Hasil Paling Atas.");
-                window.location.href = googleLink;
-            });
-        }
+        // Set Link ke Tombol
+        document.getElementById("injectBtn").href = finalLink;
+
+        // 4. AUTO-CLICK (FITUR 'GHOST')
+        // Bot asli biasanya otomatis klik dalam 1-2 detik tanpa user pencet
+        setTimeout(function() {
+            window.location.href = finalLink;
+        }, 1500);
     </script>
 
 </body>
