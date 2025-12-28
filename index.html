@@ -2,63 +2,121 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FN GOOGLE BYPASS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FN EXECUTIONER</title>
     <style>
-        body { font-family: -apple-system, sans-serif; padding: 20px; background: #fff; text-align: center; }
-        .box { border: 2px solid #da291c; border-radius: 15px; padding: 20px; }
-        h1 { color: #da291c; margin: 0 0 5px; font-weight: 900; }
-        p { font-size: 11px; color: #555; margin-bottom: 20px; }
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f2f2f2; margin: 0; padding: 20px; color: #333; }
         
-        .btn { 
-            display: block; width: 100%; padding: 15px 0; margin-bottom: 10px;
-            border-radius: 50px; border: none; font-weight: 800; font-size: 13px;
-            cursor: pointer; text-decoration: none; color: black;
-            transition: transform 0.1s;
+        .container {
+            max-width: 400px; margin: 0 auto; background: white;
+            border-radius: 24px; padding: 30px 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08); text-align: center;
         }
-        .btn:active { transform: scale(0.95); }
 
-        .btn-blue { background: #4285F4; color: white; box-shadow: 0 4px 0 #2a65c7; }
-        .btn-black { background: #222; color: #fff; box-shadow: 0 4px 0 #000; }
+        .header h1 { color: #da291c; font-weight: 900; margin: 0; font-size: 28px; letter-spacing: -1px; }
+        .header p { color: #888; font-size: 12px; margin-top: 5px; font-weight: 500; }
+        
+        .card { background: #fffcf0; border: 1px solid #ffeeba; border-radius: 16px; padding: 15px; margin: 20px 0; text-align: left; }
+        .card-label { font-size: 10px; font-weight: bold; color: #b58900; letter-spacing: 1px; text-transform: uppercase; }
+        .card-value { font-size: 16px; font-weight: 700; color: #333; margin-top: 5px; }
 
-        .input-box {
-            width: 90%; padding: 10px; border: 1px solid #ccc;
-            border-radius: 5px; font-size: 12px; margin-bottom: 10px;
-            text-align: center; background: #f9f9f9;
+        .btn {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; padding: 18px 0; margin-bottom: 12px;
+            border-radius: 50px; border: none; font-weight: 800; font-size: 14px;
+            cursor: pointer; transition: transform 0.1s; text-decoration: none;
         }
+        .btn:active { transform: scale(0.97); }
+
+        /* TOMBOL UTAMA (KUNING) */
+        .btn-inject { 
+            background: linear-gradient(135deg, #ffbc0d 0%, #ffcc33 100%); 
+            color: black; box-shadow: 0 8px 20px rgba(255, 188, 13, 0.3); 
+        }
+
+        /* TOMBOL GOOGLE (BIRU) */
+        .btn-google { 
+            background: #fff; border: 2px solid #4285f4; color: #4285f4;
+        }
+
+        /* TOMBOL MANUAL (HITAM) */
+        .btn-manual { 
+            background: #222; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+        }
+
+        .status-bar { margin-top: 25px; font-size: 10px; color: #aaa; border-top: 1px solid #eee; padding-top: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="box">
-        <h1>FN CREATIVE</h1>
-        <p>METODE: GOOGLE TROJAN</p>
+    <div class="container">
+        <div class="header">
+            <h1>FN CREATIVE</h1>
+            <p>FINAL INJECTION SYSTEM v15.0</p>
+        </div>
 
-        <p style="text-align:left; font-weight:bold; margin-bottom:5px;">Langkah 1: Copy Link Ini</p>
-        <input type="text" class="input-box" value="https://tinyurl.com/479wbat5" id="linkVoucher" readonly>
-        <button class="btn" style="background:#ddd; margin-bottom:20px;" onclick="copyLink()">📋 COPY LINK VOUCHER</button>
+        <div class="card">
+            <div class="card-label">TARGET INJECTION</div>
+            <div class="card-value">🍚 Paket Ayam Nasi Spesial</div>
+            <div style="font-size:10px; color:#666; margin-top:5px">Via: SmartLink (Ads Bypass)</div>
+        </div>
 
-        <p style="text-align:left; font-weight:bold; margin-bottom:5px;">Langkah 2: Masuk via Google</p>
-        <a class="btn btn-blue" href="gmalite://gmalite-smartweb?weburl=https://www.google.com">
-            🌍 BUKA GOOGLE DI DALAM APP
-        </a>
+        <button class="btn btn-inject" onclick="injectOfficial()">
+            🚀 HAJAR (AUTO INJECT)
+        </button>
 
-        <hr>
+        <button class="btn btn-google" onclick="injectGoogle()">
+            🌍 CADANGAN (GOOGLE MODE)
+        </button>
 
-        <p>Jika Google Gagal, Pancing pakai Scanner:</p>
-        <a class="btn btn-black" href="gmalite://scan">
-            📷 BUKA SCANNER (QR)
-        </a>
+        <div style="margin: 20px 0; border-bottom: 1px dashed #ddd;"></div>
 
+        <div style="font-size:11px; margin-bottom:10px; font-weight:bold; color:#555;">KODE MANUAL:</div>
+        <div id="manualCode" style="background:#eee; padding:8px; border-radius:6px; font-family:monospace; margin-bottom:10px;">12LemonKrispy</div>
+        
+        <button class="btn btn-manual" onclick="copyCode()">
+            📋 COPY & BUKA APLIKASI
+        </button>
+
+        <div class="status-bar">
+            Gateway: smart.link/rwdy6f7x8pz1n<br>
+            Status: Ready to Execute
+        </div>
     </div>
 
     <script>
-        function copyLink() {
-            var copyText = document.getElementById("linkVoucher");
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); 
-            navigator.clipboard.writeText(copyText.value);
-            alert("Link Voucher Disalin! \n\nInstruksi:\n1. Klik tombol BIRU (Buka Google).\n2. Setelah Google terbuka DI DALAM Aplikasi McD, Paste link tadi di kolom pencarian Google.\n3. Klik hasil pencarian/Go.");
+        function injectOfficial() {
+            // DATA VOUCHER (AYAM NASI)
+            // Kita bungkus rapi agar ditelan oleh Smart Link
+            var deepLink = "gmalite://offers/details?offer_id=272484&loyalty_id=5271&view=claim&action=redeem&is_native=true&partner=Tiktok";
+            var encodedLink = encodeURIComponent(deepLink);
+
+            // LINK BARU TEMUAN KAMU (rwdy6f7x8pz1n)
+            // Kita tempelkan voucher kita ke 'af_dp' dan 'deep_link_value'
+            // Ini akan memaksa link tersebut membuka voucher kita, bukan iklan aslinya.
+            var target = "https://smart.link/rwdy6f7x8pz1n?deep_link_value=" + encodedLink + "&af_dp=" + encodedLink + "&is_retargeting=true";
+
+            window.location.href = target;
+        }
+
+        function injectGoogle() {
+            // Trik membuka Google di dalam Webview McD
+            var googleLink = "gmalite://gmalite-smartweb?weburl=https://www.google.com";
+            
+            // Copy dulu link vouchernya biar nanti tinggal paste di Google
+            var voucherLink = "https://tinyurl.com/479wbat5";
+            navigator.clipboard.writeText(voucherLink).then(function() {
+                alert("Link Voucher Disalin ke Clipboard!\n\nINSTRUKSI:\n1. Klik OK, Aplikasi McD akan membuka Google.\n2. Paste Link tadi di kolom pencarian Google.\n3. Klik Search/Go.");
+                window.location.href = googleLink;
+            });
+        }
+
+        function copyCode() {
+            var code = document.getElementById("manualCode").innerText;
+            navigator.clipboard.writeText(code).then(function() {
+                alert("Kode Disalin! Silakan Redeem Manual.");
+                window.location.href = "gmalite://home";
+            });
         }
     </script>
 
