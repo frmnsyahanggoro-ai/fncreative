@@ -1,60 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirect</title>
     <style>
-        /* GAYA ASLI WHITELIST-BOT (POLOS) */
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-            background-color: #ffffff;
-            color: #000000;
-        }
-        p {
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-        a {
-            font-size: 20px;
-            color: blue;
-            text-decoration: underline;
-            font-weight: bold;
-        }
+        /* GAYA TAMPILAN PUTIH POLOS (ALAMIAH) */
+        body { font-family: sans-serif; margin: 20px; background: #fff; color: #000; }
+        p { margin-bottom: 10px; }
+        a { font-size: 20px; color: blue; text-decoration: underline; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <p>Redirect</p>
-    
-    <a id="injectBtn" href="#">
-       Click here for Inject
-    </a>
+
+    <a id="launcher" href="#">Click here for Inject</a>
 
     <script>
-        // --- LOGIKA MESIN DI BAWAH KAP ---
+        // --- RACIKAN URL (Di Balik Layar) ---
         
-        // 1. DATA TARGET (Voucher Ayam Nasi)
-        var voucherUrl = "gmalite://offers/details?offer_id=272484&loyalty_id=5271&view=claim&action=redeem&is_native=true&partner=Tiktok";
-        var encodedVoucher = encodeURIComponent(voucherUrl);
+        // 1. LINK GOOGLE (Tempat kita Paste Voucher)
+        // Kita gunakan Google sebagai tujuan akhir karena paling aman
+        var tujuanAkhir = "https://www.google.com";
 
-        // 2. KENDARAAN (Smart Link 'rwdy...' yang baru kamu dapat)
-        // Kita paksa dia membawa muatan (deep_link_value) agar tidak lari ke AppStore
-        var smartLink = "https://smart.link/rwdy6f7x8pz1n?deep_link_value=" + encodedVoucher + "&af_dp=" + encodedVoucher + "&is_retargeting=true";
-        var encodedSmartLink = encodeURIComponent(smartLink);
+        // 2. KENDARAAN (Smart Link 'rwdy' yang valid)
+        // Kita tambahkan parameter 'af_web_dp' untuk memaksa belok ke Google
+        var smartLinkID = "rwdy6f7x8pz1n";
+        var linkJebakan = "https://smart.link/" + smartLinkID + "?af_web_dp=" + encodeURIComponent(tujuanAkhir);
 
-        // 3. PELUNCUR (Perintah Browser Internal)
-        var finalLink = "gmalite://gmalite-smartweb?weburl=" + encodedSmartLink;
+        // 3. PEMBUNGKUS (Perintah Buka Browser Internal)
+        var finalUrl = "gmalite://gmalite-smartweb?weburl=" + encodeURIComponent(linkJebakan);
 
-        // Set Link ke Tombol
-        document.getElementById("injectBtn").href = finalLink;
-
-        // 4. AUTO-CLICK (FITUR 'GHOST')
-        // Bot asli biasanya otomatis klik dalam 1-2 detik tanpa user pencet
-        setTimeout(function() {
-            window.location.href = finalLink;
-        }, 1500);
+        // Pasang link ke tombol
+        document.getElementById("launcher").href = finalUrl;
     </script>
 
 </body>
