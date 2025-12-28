@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FN SMART INJECTOR</title>
+    <title>FN GOOGLE BYPASS</title>
     <style>
         body { font-family: -apple-system, sans-serif; padding: 20px; background: #fff; text-align: center; }
-        .box { border: 1px solid #eee; border-radius: 15px; padding: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        h1 { color: #da291c; font-weight: 900; margin: 0 0 5px; }
-        p { font-size: 12px; color: #555; margin-bottom: 25px; }
+        .box { border: 2px solid #da291c; border-radius: 15px; padding: 20px; }
+        h1 { color: #da291c; margin: 0 0 5px; font-weight: 900; }
+        p { font-size: 11px; color: #555; margin-bottom: 20px; }
         
         .btn { 
-            display: block; width: 100%; padding: 16px 0; margin-bottom: 12px;
-            border-radius: 50px; border: none; font-weight: 800; font-size: 14px;
+            display: block; width: 100%; padding: 15px 0; margin-bottom: 10px;
+            border-radius: 50px; border: none; font-weight: 800; font-size: 13px;
             cursor: pointer; text-decoration: none; color: black;
             transition: transform 0.1s;
         }
-        .btn:active { transform: scale(0.97); }
+        .btn:active { transform: scale(0.95); }
 
-        .btn-yellow { background: #ffbc0d; box-shadow: 0 4px 0 #cfa006; }
-        .btn-red { background: #da291c; color: white; box-shadow: 0 4px 0 #9e150b; }
-        
-        .code-box {
-            background: #f4f4f4; padding: 10px; border-radius: 8px;
-            font-family: monospace; font-weight: bold; margin-bottom: 5px;
+        .btn-blue { background: #4285F4; color: white; box-shadow: 0 4px 0 #2a65c7; }
+        .btn-black { background: #222; color: #fff; box-shadow: 0 4px 0 #000; }
+
+        .input-box {
+            width: 90%; padding: 10px; border: 1px solid #ccc;
+            border-radius: 5px; font-size: 12px; margin-bottom: 10px;
+            text-align: center; background: #f9f9f9;
         }
     </style>
 </head>
@@ -31,52 +32,33 @@
 
     <div class="box">
         <h1>FN CREATIVE</h1>
-        <p>STATUS: SMART LINK + PAYLOAD INJECTION</p>
+        <p>METODE: GOOGLE TROJAN</p>
 
-        <button class="btn btn-yellow" onclick="injectSmart()">
-            🚀 AUTO INJECT (SMART MODE)
-        </button>
+        <p style="text-align:left; font-weight:bold; margin-bottom:5px;">Langkah 1: Copy Link Ini</p>
+        <input type="text" class="input-box" value="https://tinyurl.com/479wbat5" id="linkVoucher" readonly>
+        <button class="btn" style="background:#ddd; margin-bottom:20px;" onclick="copyLink()">📋 COPY LINK VOUCHER</button>
 
-        <hr style="margin: 20px 0; border:0; border-top:1px dashed #ccc;">
+        <p style="text-align:left; font-weight:bold; margin-bottom:5px;">Langkah 2: Masuk via Google</p>
+        <a class="btn btn-blue" href="gmalite://gmalite-smartweb?weburl=https://www.google.com">
+            🌍 BUKA GOOGLE DI DALAM APP
+        </a>
 
-        <p><b>JIKA AUTO GAGAL:</b></p>
-        <div class="code-box" id="code">12LemonKrispy</div>
-        
-        <button class="btn btn-red" onclick="manualFix()">
-            📋 COPY & BUKA MY REWARD
-        </button>
+        <hr>
 
-    </div>
+        <p>Jika Google Gagal, Pancing pakai Scanner:</p>
+        <a class="btn btn-black" href="gmalite://scan">
+            📷 BUKA SCANNER (QR)
+        </a>
 
-    <div style="margin-top:20px; font-size:10px; color:#aaa">
-        Target: 3poewv26lgso9 (Configured)
     </div>
 
     <script>
-        function injectSmart() {
-            // 1. SIAPKAN DATA VOUCHER (RAW)
-            // Ini link voucher Ayam Nasi kamu
-            var rawVoucher = "gmalite://offers/details?offer_id=272484&loyalty_id=5271&view=claim&action=redeem&is_native=true&partner=Tiktok";
-
-            // 2. ENCODE DATA TERSEBUT
-            var encodedVoucher = encodeURIComponent(rawVoucher);
-
-            // 3. MASUKKAN KE DALAM SMART LINK SEBAGAI MUATAN (Deep Link Value)
-            // Ini mencegah lari ke App Store
-            var finalTarget = "https://smart.link/3poewv26lgso9?deep_link_value=" + encodedVoucher + "&af_dp=" + encodedVoucher;
-
-            // 4. TEMBAK
-            window.location.href = finalTarget;
-        }
-
-        function manualFix() {
-            // Copy Kode
-            var text = document.getElementById("code").innerText;
-            navigator.clipboard.writeText(text);
-            alert("Kode Disalin! \nSistem akan membuka menu My Reward.");
-            
-            // Buka Pintu Loyalty (Biasanya Redeem Code ada di sini)
-            window.location.href = "gmalite://loyalty/home";
+        function copyLink() {
+            var copyText = document.getElementById("linkVoucher");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); 
+            navigator.clipboard.writeText(copyText.value);
+            alert("Link Voucher Disalin! \n\nInstruksi:\n1. Klik tombol BIRU (Buka Google).\n2. Setelah Google terbuka DI DALAM Aplikasi McD, Paste link tadi di kolom pencarian Google.\n3. Klik hasil pencarian/Go.");
         }
     </script>
 
