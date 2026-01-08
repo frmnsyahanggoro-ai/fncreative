@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Redirect</title>
   <meta name="robots" content="noindex,nofollow" />
-
   <style>
     :root { color-scheme: dark; }
     body{
@@ -30,7 +29,7 @@
       background:#4f7cff; color:#fff;
       display:inline-flex; align-items:center; gap:8px;
     }
-    button.secondary, a.secondary{
+    a.secondary,button.secondary{
       background:rgba(255,255,255,.12);
       border:1px solid rgba(255,255,255,.18);
       color:#fff;
@@ -52,17 +51,17 @@
 
 <body>
   <div class="card">
-    <h1>Redirect GMALite</h1>
-    <p id="status"><span class="dot"></span> Menyiapkan link…</p>
+    <h1>Redirect</h1>
+    <p id="status"><span class="dot"></span> Menyiapkan…</p>
 
     <p class="small">Smartlink tujuan:</p>
     <code id="smart">-</code>
 
-    <p class="small">Deep link (GMALite):</p>
+    <p class="small">Deep link (Android/GMALite):</p>
     <code id="deep">-</code>
 
     <div class="btns">
-      <a id="openApp" href="#">Buka GMALite</a>
+      <a id="openApp" href="#">Buka GMALite (Android)</a>
       <a id="openWeb" class="secondary" href="#" target="_blank" rel="noopener">Buka via Browser</a>
       <button id="copy" class="secondary" type="button">Salin Link</button>
     </div>
@@ -72,35 +71,34 @@
 
 <script>
 (() => {
-  // === KONFIGURASI ===
+  // ====== KONFIG ======
   const SMARTLINK = "https://fncreative.short.gy/OCbnE0";
-  const AUTO_OPEN_DELAY_MS = 800;     // jeda sebelum auto-open
-  const FALLBACK_AFTER_MS = 2500;     // kalau app tidak kebuka, fallback ke web
+  const AUTO_OPEN_DELAY_MS = 700;   // jeda sebelum auto-redirect
+  const ANDROID_FALLBACK_MS = 2500; // kalau GMALite tidak kebuka -> web
 
-  // === UTIL ===
-  const isAndroid = () => /Android/i.test(navigator.userAgent);
-  const now = () => Date.now();
+  // ====== DETEKSI DEVICE ======
+  const ua = navigator.userAgent || "";
+  const isAndroid = /Android/i.test(ua);
+  const isIOS = /iPhone|iPad|iPod/i.test(ua);
 
+  // ====== ELEMENT ======
   const statusEl = document.getElementById("status");
   const hintEl = document.getElementById("hint");
   const smartEl = document.getElementById("smart");
   const deepEl  = document.getElementById("deep");
-
   const openApp = document.getElementById("openApp");
   const openWeb = document.getElementById("openWeb");
   const copyBtn = document.getElementById("copy");
 
-  // Deep link GMALite: weburl harus di-encode
+  // Deep link GMALite (Android)
   const deepLink = `gmalite://gmalite-smartweb?weburl=${encodeURIComponent(SMARTLINK)}`;
 
   smartEl.textContent = SMARTLINK;
-  deepEl.textContent  = deepLink;
-
+  deepEl.textContent = deepLink;
   openApp.href = deepLink;
   openWeb.href = SMARTLINK;
 
-  // Status helper
-  function setStatus(text, type = "ok") {
+  function setStatus(text, type="ok"){
     const dotClass = type === "warn" ? "dot warn" : "dot";
     statusEl.innerHTML = `<span class="${dotClass}"></span> ${text}`;
   }
@@ -115,47 +113,48 @@
     }
   });
 
-  // Fallback logic:
-  // Kita coba buka app. Jika halaman tidak "blur/hidden" dalam waktu tertentu,
-  // kita asumsikan app tidak kebuka → buka web.
-  function tryOpenWithFallback() {
-    if (!isAndroid()) {
-      setStatus("Perangkat bukan Android. Buka via browser.", "warn");
-      hintEl.textContent = "Deep link GMALite biasanya hanya jalan di Android.";
-      return; // jangan paksa auto-open di non-Android
-    }
+  // Android: coba buka app, kalau gagal -> web
+  function openAndroidWithFallback() {
+    setStatus("Android terdeteksi. Mencoba membuka GMALite…");
+    hintEl.textContent = "Jika tidak terbuka, akan dialihkan ke browser.";
 
-    setStatus("Mencoba membuka GMALite…");
-    hintEl.textContent = "Jika tidak terbuka, akan dialihkan ke browser otomatis.";
-
-    const t0 = now();
     let didHide = false;
+    const onVis = () => { if (document.visibilityState === "hidden") didHide = true; };
+    document.addEventListener("visibilitychange", onVis, { passive:true });
 
-    const onVisibility = () => {
-      if (document.visibilityState === "hidden") didHide = true;
-    };
-    document.addEventListener("visibilitychange", onVisibility, { passive: true });
-
-    // Coba buka app
+    // coba buka app
     window.location.href = deepLink;
 
-    // Setelah beberapa detik, kalau tidak hide → fallback ke web
+    // fallback
     setTimeout(() => {
-      document.removeEventListener("visibilitychange", onVisibility);
-
-      // Jika user pindah app biasanya page jadi hidden / blur cepat
-      if (!didHide && (now() - t0) >= (FALLBACK_AFTER_MS - 100)) {
-        setStatus("GMALite tidak terbuka. Dialihkan ke browser…", "warn");
+      document.removeEventListener("visibilitychange", onVis);
+      if (!didHide) {
+        setStatus("GMALite tidak terbuka. Membuka via browser…", "warn");
         window.location.href = SMARTLINK;
       } else {
-        setStatus("Jika GMALite terbuka, kamu bisa lanjut di aplikasi.");
+        setStatus("Jika GMALite terbuka, lanjutkan di aplikasi.");
       }
-    }, FALLBACK_AFTER_MS);
+    }, ANDROID_FALLBACK_MS);
   }
 
-  // Auto-open (opsional, tetap ada tombol kalau browser blok)
+  // iOS: langsung web (iOS tidak support gmalite://)
+  function openIOSWeb() {
+    setStatus("iPhone/iOS terdeteksi. Membuka via browser…", "warn");
+    hintEl.textContent = "iOS tidak mendukung deep link GMALite, jadi diarahkan ke web.";
+    window.location.href = SMARTLINK;
+  }
+
+  // Desktop/others: web
+  function openOtherWeb() {
+    setStatus("Membuka via browser…");
+    window.location.href = SMARTLINK;
+  }
+
+  // Auto-run
   setTimeout(() => {
-    tryOpenWithFallback();
+    if (isAndroid) openAndroidWithFallback();
+    else if (isIOS) openIOSWeb();
+    else openOtherWeb();
   }, AUTO_OPEN_DELAY_MS);
 
 })();
