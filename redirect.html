@@ -1,46 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirect</title>
-
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-            background: #0b1020;
-            color: white;
-        }
-        a {
-            padding: 15px 25px;
-            background: #4f7cff;
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-        a:hover {
-            background: #3b66d6;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redirect</title>
 </head>
 <body>
+  <a id="go" href="#">Click here</a>
 
-    <a id="inject" href="gmalite://gmalite-smartweb?weburl=https://smart.link/2e5d9984m04hg">
-        Click here for Inject
-    </a>
+  <script>
+    const qs = new URLSearchParams(location.search);
+    const web = qs.get("web") || "https://example.com"; // ganti default
+    const webEnc = encodeURIComponent(web);
+    const deep = `gmalite://gmalite-smartweb?weburl=${webEnc}`;
 
-    <script>
-        // Auto open setelah 1 detik (opsional)
-        setTimeout(() => {
-            document.getElementById("inject").click();
-        }, 1000);
-    </script>
+    const a = document.getElementById("go");
+    a.href = deep;
 
+    // optional auto-click
+    setTimeout(() => a.click(), 800);
+  </script>
 </body>
 </html>
